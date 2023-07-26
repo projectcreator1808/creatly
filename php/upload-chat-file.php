@@ -178,7 +178,7 @@ if ($extension=="jpg" || $extension=="jpeg" || $extension=="gif" || $extension =
 elseif ($extension=="mp4" || $extension=="MP4" || $extension=="flv") {
     $file_type = "video";
 }
-elseif($extension=="doc" || $extension=="pdf") {
+elseif($extension=="doc" || $extension=="pdf" || $extension=="docx" || $extension=="zip" || $extension=="rar" || $extension=="xls" || $extension=="xlsx" ) {
     $file_type = "document";
 }else{
     die('{"jsonrpc" : "2.0", "error" : {"code": 101, "message": "File not supported."}, "id" : "id"}');
