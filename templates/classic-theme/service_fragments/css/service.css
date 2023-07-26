@@ -1,0 +1,185 @@
+
+b, strong {
+    font-weight: bold;
+}
+/*Tooltips*/
+
+/*
+Gig services*/
+.quickform-multisteps {
+    padding-bottom: 90px;
+}
+.quickform-multisteps .top-navbar-container {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    min-height: 60px;
+    background: #fff;
+    border-bottom: 1px solid #dadbdd;
+    padding: 0 10%;
+}
+.quickform-multisteps .quick-breadcrumbs.quick-breadcrumbs-progress {
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.quickform-multisteps .quick-breadcrumbs {
+    display: inline-block;
+    font-size: 14px;
+}
+.quickform-multisteps .top-navbar-container .top-navbar>ul {
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+}
+
+.quickform-multisteps .quick-breadcrumbs li, .quickform-multisteps .quick-breadcrumbs ul {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+.quickform-multisteps .quick-breadcrumbs ul {
+    padding: 0;
+    list-style: none;
+}
+
+.quickform-multisteps .quick-breadcrumbs li, .quickform-multisteps .quick-breadcrumbs ul {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+.quickform-multisteps .top-navbar-container .top-navbar.wizard .quick-breadcrumbs-icon {
+    font-size: 14px;
+}
+
+.quickform-multisteps .quick-breadcrumbs.quick-breadcrumbs-progress .quick-breadcrumbs-icon {
+    margin-right: 8px;
+}
+.quickform-multisteps .top-navbar-container .top-navbar .quick-breadcrumbs-icon {
+    line-height: 1;
+}
+.quickform-multisteps #progressbar li.active .quick-breadcrumbs-icon {
+    background: #1dbf73;
+}
+.quickform-multisteps .quick-breadcrumbs-icon {
+    display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    width: 25px;
+    height: 25px;
+    background: #c5c6c9;
+    border-radius: 50%;
+    color: #fff;
+    text-align: center;
+    font-size: 16px;
+    line-height: 25px;
+}
+.quickform-multisteps .quick-icon {
+    display: inline-block;
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    fill: #222325;
+}
+.quickform-multisteps .quick-icon svg {
+    float: left;
+    height: 100%;
+    width: 100%;
+}
+.quickform-multisteps #progressbar li.active .quick-crumb {
+    color: #1dbf73;
+}
+
+.quickform-multisteps .quick-breadcrumbs.quick-breadcrumbs-progress .quick-crumb {
+    color: #b5b6ba;
+}
+.quickform-multisteps .top-navbar-container .top-navbar .quick-crumb {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    height: 60px;
+    font-size: 14px;
+    cursor: pointer;
+}
+.quickform-multisteps .top-navbar-container .top-navbar .quick-crumb>span {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    height: 100%;
+}
+.quickform-multisteps .top-navbar-container .top-navbar.wizard .quick-breadcrumbs-separator {
+    height: 10px!important;
+    width: 10px!important;
+}
+.quickform-multisteps .quick-breadcrumbs.quick-breadcrumbs-progress .quick-breadcrumbs-separator {
+    margin: 0 16px;
+}
+.quickform-multisteps .quick-breadcrumbs-separator {
+    color: #62646a;
+    display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+}
+.quickform-multisteps .quick-icon {
+    display: inline-block;
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    fill: #222325;
+}
+
+.quickform-multisteps .top-navbar-container .save-btn-container.save-and-preview {
+    min-width: 170px;
+}
+
+.quickform-multisteps .top-navbar-container .save-btn-container {
+    margin-left: auto;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    font-size: 14px;
+    font-weight: 600;
+}
+.quickform-multisteps .naked-button {
+    vertical-align: baseline;
+    border: 0;
+    background: transparent;
+}
+
+.text-bold {
+    font-weight: 700;
+}
+.co-blue {
+    color: #4a73e8;
+}
+.quickform-multisteps .top-navbar-container .save-btn-container .sep {
+    color: #e4e5e7;
+}
