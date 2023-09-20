@@ -1,0 +1,3 @@
+ALTER TABLE `<<prefix>>milestone` CHANGE `status` `status` enum('request','funded','paid','cancel', 'dispute','reject_employer','reject_freelancer','rejected','deliver','split_employer','split_freelancer', 'paid_splited') COLLATE utf8mb4_unicode_ci DEFAULT NULL;
+ALTER TABLE `<<prefix>>project` CHANGE `status` `status` enum('open','pending_for_approval','under_development','completed','final_review_pending','closed','incomplete', 'dispute','reject_request','rejected','deliver','split_request') NOT NULL DEFAULT 'open';
+ALTER TABLE `<<prefix>>milestone` ADD COLUMN split_percent INT DEFAULT NULL AFTER amount;

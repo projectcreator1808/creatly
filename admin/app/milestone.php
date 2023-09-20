@@ -53,7 +53,12 @@ $count = ORM::for_table($config['db']['pre'] . 'milestone')
                                 $status = '<span class="badge btn-success fs-12">'.__("Funded in milestone").'</span>';
                             }
                             elseif($info['request'] == 1) {
-                                $status = '<span class="badge btn-warning fs-12">'.__("Request for release").'</span>';
+                                if ($info['status'] == 'dispute') {
+                                    $status = '<span class="badge btn-warning fs-12">'.__("Dispute").'</span>';
+                                }
+                                else {
+                                    $status = '<span class="badge btn-warning fs-12">'.__("Request for release").'</span>';
+                                }
                             }
                             elseif($info['request'] == 2) {
                                 $status = '<span class="badge btn-info fs-12">'.__("Released").'</span>';

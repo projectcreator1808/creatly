@@ -39,6 +39,16 @@ overall_header(__("Milestones"));
                                     echo '<div class="dashboard-status-button yellow">'.__("Pending For Approval").'</div>';
                                 if($project_status == "under_development")
                                     echo '<div class="dashboard-status-button blue">'.__("Under Development").'</div>';
+                                if($project_status == "dispute")
+                                    echo '<div class="dashboard-status-button yellow">'.__("Dispute").'</div>';
+                                if($project_status == "deliver")
+                                    echo '<div class="dashboard-status-button blue">'.__("Delivered").'</div>';
+                                if($project_status == "reject_request")
+                                    echo '<div class="dashboard-status-button red" data-tippy title="You have 3 days to accept or deny request otherwise order will be completed" data-tippy-placement = "top">'.__("Reject request").'</div>';
+                                if($project_status == "rejected")
+                                    echo '<div class="dashboard-status-button red">'.__("Rejected").'</div>';
+                                if($project_status == "split_request")
+                                    echo '<div class="dashboard-status-button blue" data-tippy title="You have 3 days to accept or deny split request otherwise order will be completed with a split" data-tippy-placement = "top">'.__("Split request").'</div>';
                                 if($project_status == "completed")
                                     echo '<div class="dashboard-status-button green">'.__("Completed").'</div>';
                                 if($project_status == "final_review_pending")
@@ -118,11 +128,30 @@ overall_header(__("Milestones"));
                                                 }
                                                 elseif($milestone['request_id'] == 1)
                                                 {
-                                                    echo '<span class="dashboard-status-button yellow">'.__("Request for release").'</span>';
+                                                    if ($milestone['status'] == 'dispute') {
+                                                        echo '<span class="dashboard-status-button yellow">'.__("Dispute").'</span>';
+                                                    }
+                                                    else if ($milestone['status'] == 'deliver') {
+                                                        echo '<span class="dashboard-status-button blue" data-tippy title="You have 3 days to Release or Dispute" data-tippy-placement = "top">'.__("Delivered").'</span>';
+                                                    }
+                                                    else if ($milestone['status'] == 'reject_employer' || $milestone['status'] == 'reject_freelancer') {
+                                                        echo '<span class="dashboard-status-button red" data-tippy title="You have 3 days to accept or deny request otherwise order will be completed" data-tippy-placement = "top">'.__("Reject request").'</span>';
+                                                    }
+                                                    else if ($milestone['status'] == 'split_employer' || $milestone['status'] == 'split_freelancer') {
+                                                        echo '<span class="dashboard-status-button blue" data-tippy title="You have 3 days to accept or deny split request otherwise order will be completed with a split" data-tippy-placement = "top">'.__("Split request").' '.$milestone['split_percent'].'%</span>';
+                                                    }
+                                                    else {
+                                                        echo '<span class="dashboard-status-button yellow">'.__("Request for release").'</span>';
+                                                    }
                                                 }
                                                 elseif($milestone['request_id'] == 2)
                                                 {
-                                                    echo '<span class="dashboard-status-button blue">'.__("Released").'</span>';
+                                                    if ($milestone['status'] != 'rejected') {
+                                                        echo '<span class="dashboard-status-button blue">'.__("Released").'</span>';
+                                                    }
+                                                    else {
+                                                        echo '<span class="dashboard-status-button red">'.__("Rejected").'</span>';
+                                                    }
                                                 }
                                                 elseif($milestone['request_id'] == 3)
                                                 {
@@ -134,15 +163,58 @@ overall_header(__("Milestones"));
                                             <td>
                                                 <?php
                                                 if($milestone['request_id'] == "2"){
-                                                    echo '<a href="#" class="button ripple-effect"><i class="icon-feather-file-text"></i> '.__("Paid").'</a>';
+                                                    if ($milestone['status'] != 'rejected') {
+                                                        echo '<a href="#" class="button ripple-effect"><i class="icon-feather-file-text"></i> '.__("Paid").'</a>';
+                                                    }
                                                 }else{
                                                     if($usertype == "employer"){
-                                                        echo '<a href="#" data-ajax-action="release_milestone" data-alert-message="'.__("Are you sure you want to accept.").'" class="button green ripple-effect item-ajax-button"><i class="icon-feather-check"></i> '.__("Release").'</a>';
+                                                        if (!in_array($milestone['status'], ['reject_employer', 'reject_freelancer','split_employer', 'split_freelancer'])) {
+                                                            if ($milestone['status'] != 'dispute' && $milestone['request_id'] == "1") {
+                                                                echo '<a href="#" data-ajax-action="release_milestone" data-alert-message="'.__("Are you sure you want to accept.").'" class="button green ripple-effect item-ajax-button"><i class="icon-feather-check"></i> '.__("Release").'</a>';
+                                                                echo '<a href="#" data-ajax-action="dispute_milestone" data-alert-message="'.__("Are you sure you want open dispute.").'" class="button yellow ripple-effect item-ajax-button">'.__("Dispute").'</a>';
+                                                                echo '<a href="#small-dialog-2" class="popup-with-zoom-anim button blue ripple-effect split_milestone_button">'.__("Split").'</a>';
+                                                            }
+
+                                                            echo '<a href="#" data-ajax-action="reject_milestone" data-alert-message="'.__("Are you sure you want reject milestone.").'" class="button red ripple-effect item-ajax-button">'.__("Reject").'</a>';
+                                                        }
+                                                        else if ($milestone['status'] == 'reject_freelancer') {
+                                                            echo '<a href="#" data-ajax-action="accept_reject_milestone" data-alert-message="'.__("Are you sure you want confirm reject.").'" class="button green ripple-effect item-ajax-button">'.__("Accept").'</a>';
+                                                            echo '<a href="#" data-ajax-action="deny_reject_milestone" data-alert-message="'.__("Are you sure you want deny reject.").'" class="button red ripple-effect item-ajax-button">'.__("Deny").'</a>';
+                                                        }
+                                                        else if ($milestone['status'] == 'split_freelancer') {
+                                                            echo '<a href="#" data-ajax-action="accept_split_milestone" data-alert-message="'.__("Are you sure you want confirm split.").'" class="button green ripple-effect item-ajax-button">'.__("Accept").'</a>';
+                                                            echo '<a href="#" data-ajax-action="deny_split_milestone" data-alert-message="'.__("Are you sure you want deny split.").'" class="button red ripple-effect item-ajax-button">'.__("Deny").'</a>';
+                                                        }
                                                     }else{
                                                         if($milestone['request_id'] != "1"){
                                                             echo '<a href="#" data-ajax-action="request_release_milestone" data-alert-message="'.__("Are you sure you want to accept.").'" class="button dark ripple-effect item-ajax-button"><i class="icon-feather-check"></i> '.__("Request for release").'</a>';
                                                         }
-                                                        echo '<a href="#" data-ajax-action="cancel_milestone" data-alert-message="'.__("Are you sure you want to accept.").'" class="button gray ripple-effect ico item-ajax-button" data-tippy-placement="top" title="'.__("Cancel").'"><i class="pe-7s-close"></i></a>';
+                                                        else if (!in_array($milestone['status'], ['reject_employer', 'reject_freelancer','split_employer', 'split_freelancer', 'dispute'])) {
+                                                            echo '<a href="#" data-ajax-action="request_dispute_milestone" data-alert-message="'.__("Are you sure you want open dispute.").'" class="button yellow ripple-effect item-ajax-button">'.__("Dispute").'</a>';
+                                                            echo '<a href="#small-dialog-3" class="popup-with-zoom-anim button blue ripple-effect request_split_milestone_button">'.__("Split").'</a>';
+                                                        }
+                                                        else if ($milestone['status'] == 'reject_employer') {
+                                                            echo '<a href="#" data-ajax-action="request_accept_reject_milestone" data-alert-message="'.__("Are you sure you want confirm reject.").'" class="button green ripple-effect item-ajax-button">'.__("Accept").'</a>';
+                                                            echo '<a href="#" data-ajax-action="request_deny_reject_milestone" data-alert-message="'.__("Are you sure you want deny reject.").'" class="button red ripple-effect item-ajax-button">'.__("Deny").'</a>';
+                                                        }
+                                                        else if ($milestone['status'] == 'split_employer') {
+                                                            echo '<a href="#" data-ajax-action="request_accept_split_milestone" data-alert-message="'.__("Are you sure you want confirm split.").'" class="button green ripple-effect item-ajax-button">'.__("Accept").'</a>';
+                                                            echo '<a href="#" data-ajax-action="request_deny_split_milestone" data-alert-message="'.__("Are you sure you want deny split.").'" class="button red ripple-effect item-ajax-button">'.__("Deny").'</a>';
+                                                        }
+                                                        else if ($milestone['status'] == 'dispute') {
+                                                            echo '<a href="#" data-ajax-action="request_deliver_milestone" data-alert-message="'.__("Are you sure you want to accept.").'" class="button purple ripple-effect item-ajax-button"><i class="icon-feather-check"></i> '.__("Deliver").'</a>';
+                                                        }
+                                                        // else if ($milestone['status'] != 'dispute') {
+                                                        //     echo '<a href="#" data-ajax-action="request_dispute_milestone" data-alert-message="'.__("Are you sure you want open dispute.").'" class="button yellow ripple-effect item-ajax-button">'.__("Dispute").'</a>';
+                                                        //     echo '<a href="#small-dialog-3" class="popup-with-zoom-anim button blue ripple-effect request_split_milestone_button">'.__("Split").'</a>';
+                                                        // }
+
+                                                        
+                                                        // echo '<a href="#" data-ajax-action="cancel_milestone" data-alert-message="'.__("Are you sure you want to accept.").'" class="button gray ripple-effect ico item-ajax-button" data-tippy-placement="top" title="'.__("Cancel").'"><i class="pe-7s-close"></i></a>';
+
+                                                        if (!in_array($milestone['status'], ['reject_employer', 'reject_freelancer','split_employer', 'split_freelancer'])) {
+                                                            echo '<a href="#" data-ajax-action="request_reject_milestone" data-alert-message="'.__("Are you sure you want reject milestone.").'" class="button red ripple-effect item-ajax-button">'.__("Reject").'</a>';
+                                                        }
                                                     }
                                                 }
                                                 ?>
@@ -209,5 +281,71 @@ overall_header(__("Milestones"));
     </div>
 </div>
 <!-- Milestone Create Popup / End -->
+
+<div id="small-dialog-2" class="zoom-anim-dialog mfp-hide dialog-with-tabs popup-dialog">
+
+    <!--Tabs -->
+    <div class="sign-in-form">
+
+        <ul class="popup-tabs-nav">
+            <li><a href="#tab2"><?php _e("Split Milestone") ?></a></li>
+        </ul>
+
+        <div class="popup-tabs-container">
+            <!-- Tab -->
+            <div class="popup-tab-content" id="tab">
+                <form id="split-milestone-form" method="post" action="#">
+                    <div class="welcome-text">
+                        <h3><?php _e("Split milestone") ?></h3>
+                    </div>
+                    <div id="split-milestone-status" class="notification error" style="display:none"></div>
+
+                    <input name="split_percent" value="" type="number" placeholder="<?php _e("Split percent") ?>" min = "10" max = "99"/>
+                    <input type="hidden" value="0" name="id"/>
+                    <div class="radio">
+                        <input id="radio-1" name="radio" type="radio" required>
+                        <label for="radio-1"><span class="radio-label"></span> <?php _e("I have read and agree to the Terms and Conditions") ?></label>
+                    </div>
+                    <!-- Button -->
+                    <button id="split-milestone-button" class="margin-top-15 button full-width button-sliding-icon ripple-effect" type="submit"> <?php _e("Accept") ?> <i class="icon-material-outline-arrow-right-alt"></i></button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div id="small-dialog-3" class="zoom-anim-dialog mfp-hide dialog-with-tabs popup-dialog">
+
+    <!--Tabs -->
+    <div class="sign-in-form">
+
+        <ul class="popup-tabs-nav">
+            <li><a href="#tab3"><?php _e("Split Milestone") ?></a></li>
+        </ul>
+
+        <div class="popup-tabs-container">
+            <!-- Tab -->
+            <div class="popup-tab-content" id="tab">
+                <form id="request-split-milestone-form" method="post" action="#">
+                    <div class="welcome-text">
+                        <h3><?php _e("Split milestone") ?></h3>
+                    </div>
+                    <div id="request-split-milestone-status" class="notification error" style="display:none"></div>
+
+                    <input name="split_percent" value="" type="number" placeholder="<?php _e("Split percent") ?>" min = "10" max = "99"/>
+                    <input type="hidden" value="0" name="id"/>
+                    <div class="radio">
+                        <input id="radio-1" name="radio" type="radio" required>
+                        <label for="radio-1"><span class="radio-label"></span> <?php _e("I have read and agree to the Terms and Conditions") ?></label>
+                    </div>
+                    <!-- Button -->
+                    <button id="request-split-milestone-button" class="margin-top-15 button full-width button-sliding-icon ripple-effect" type="submit"> <?php _e("Accept") ?> <i class="icon-material-outline-arrow-right-alt"></i></button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
 
 <?php include_once TEMPLATE_PATH.'/overall_footer_dashboard.php'; ?>

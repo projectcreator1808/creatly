@@ -75,7 +75,9 @@ if(checkloggedin()) {
             $milestone[$info['id']]['created_by'] = $info['created_by'];
             $milestone[$info['id']]['project_id'] = $info['project_id'];
             $milestone[$info['id']]['request_id'] = $info['request'];
+            $milestone[$info['id']]['status'] = $info['status'];
             $milestone[$info['id']]['start_date'] = date('d-M-Y', strtotime($info['start_date']));
+            $milestone[$info['id']]['split_percent'] = $info['split_percent'];
 
             if($info['status'] == 'paid'){
                 $epaid = $epaid + $info['amount'];

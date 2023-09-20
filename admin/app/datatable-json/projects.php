@@ -121,6 +121,14 @@ foreach ($queryRecords as $row) {
     {
         $status = '<span class="label label-danger">Incomplete</span>';
     }
+    elseif($ad_status == "dispute")
+    {
+        $status = '<span class="label label-warning">Dispute</span>';
+    }
+    elseif($ad_status == "incomplete")
+    {
+        $status = '<span class="label label-danger">Incomplete</span>';
+    }
     else{
         $status = '<span class="label label-danger">Closed</span>';
     }

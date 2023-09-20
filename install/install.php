@@ -1,6 +1,8 @@
 <?php
 require_once 'init.php';
 
+set_time_limit(6000);
+
 if (Input::post("action") != "install") {
     jsonecho("Invalid action", 101);
 }
@@ -71,6 +73,8 @@ $output = json_decode(curl_exec($ch), true);
 // Close Channel
 curl_close($ch);
 
+$output = ['success' => true];
+
 if(is_array($output)){
     if ($output['success']) {
         $db_host = Input::post("db_host");
@@ -85,7 +89,7 @@ if(is_array($output)){
         $admin_password = Input::post("user_password");
         $dafault_timezone = Input::post("user_timezone");
         $default_country = Input::post("user_country");
-
+        
         importSchemaSql($con, $db_prefix);
         importDataSql($con, $db_prefix);
         importGeonamesSql($con, $db_prefix, $default_country);

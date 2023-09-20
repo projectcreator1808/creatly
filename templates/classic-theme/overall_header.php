@@ -74,6 +74,7 @@
         echo '<link rel="stylesheet" href="'.TEMPLATE_URL.'/css/rtl.css?ver='.$config['version'].'">';
     }else{
         echo '<link rel="stylesheet" href="'.TEMPLATE_URL.'/css/style.css?ver='.$config['version'].'">';
+        echo '<link rel="stylesheet" href="'.TEMPLATE_URL.'/css/extra.css?ver='.$config['version'].'">';
     }?>
     <link rel="stylesheet" href="<?php _esc(TEMPLATE_URL);?>/css/color.css?ver=<?php _esc($config['version']);?>">
     <script src="<?php _esc(TEMPLATE_URL);?>/js/jquery-3.4.1.min.js"></script>

@@ -1,6 +1,6 @@
-jQuery(function ($) {
+jQuery(function($) {
     // user login
-    $("#login-form").on('submit',function (e) {
+    $("#login-form").on('submit', function(e) {
         e.preventDefault();
         $("#login-status").slideUp();
         $('#login-button').addClass('button-progress').prop('disabled', true);
@@ -14,14 +14,13 @@ jQuery(function ($) {
             type: "POST",
             url: ajaxurl,
             data: form_data,
-            success: function (response) {
+            success: function(response) {
                 $('#login-button').removeClass('button-progress').prop('disabled', false);
                 if (response == "success") {
-                    $("#login-status").addClass('success').removeClass('error').html('<p>'+LANG_LOGGED_IN_SUCCESS+'</p>').slideDown();
+                    $("#login-status").addClass('success').removeClass('error').html('<p>' + LANG_LOGGED_IN_SUCCESS + '</p>').slideDown();
                     location.reload();
-                }
-                else {
-                    $("#login-status").removeClass('success').addClass('error').html('<p>'+response+'</p>').slideDown();
+                } else {
+                    $("#login-status").removeClass('success').addClass('error').html('<p>' + response + '</p>').slideDown();
                 }
             }
         });
@@ -29,7 +28,7 @@ jQuery(function ($) {
     });
 
     // set button fav
-    $('.set-item-fav').on('click', function (e) {
+    $('.set-item-fav').on('click', function(e) {
         e.stopPropagation();
         e.preventDefault();
 
@@ -46,28 +45,25 @@ jQuery(function ($) {
             return;
         }
         $this.addClass('button-loader');
-        var data = {action: action, id: adId, userId: userId, post_type: postType};
+        var data = { action: action, id: adId, userId: userId, post_type: postType };
         $.ajax({
             type: "POST",
             url: ajaxurl,
             data: data,
-            success: function (result) {
+            success: function(result) {
                 if (result == 1) {
                     if (action == 'removeFavAd') {
                         $item.remove();
                         var val = $('.fav-ad-count').text();
                         var favcount = val - 1;
                         $('.fav-ad-count').html(favcount);
-                    }
-                    else {
+                    } else {
                         $this.removeClass('button-loader').addClass('added');
                     }
 
-                }
-                else if (result == 2) {
+                } else if (result == 2) {
                     $this.removeClass('button-loader').removeClass('added');
-                }
-                else {
+                } else {
                     //alert("else");
                 }
             }
@@ -75,7 +71,7 @@ jQuery(function ($) {
     });
 
     // set user fav
-    $('.set-user-fav').on('click', function (e) {
+    $('.set-user-fav').on('click', function(e) {
         e.stopPropagation();
         e.preventDefault();
 
@@ -91,24 +87,22 @@ jQuery(function ($) {
             return;
         }
         $this.addClass('button-loader');
-        var data = {action: action, id: adId, userId: userId};
+        var data = { action: action, id: adId, userId: userId };
         $.ajax({
             type: "POST",
             url: ajaxurl,
             data: data,
-            success: function (result) {
+            success: function(result) {
                 if (result == 1) {
                     if (action == 'removeFavAd') {
                         $item.remove();
                         var val = $('.fav-user-count').text();
                         var favcount = val - 1;
                         $('.fav-user-count').html(favcount);
-                    }
-                    else {
+                    } else {
                         $this.removeClass('button-loader').addClass('added');
                     }
-                }
-                else if (result == 2) {
+                } else if (result == 2) {
                     $this.removeClass('button-loader').removeClass('added');
                     if ($item != undefined) {
                         $item.remove();
@@ -116,8 +110,7 @@ jQuery(function ($) {
                         var favcount = val - 1;
                         $('.fav-user-count').html(favcount);
                     }
-                }
-                else {
+                } else {
                     //alert("else");
                 }
             }
@@ -125,7 +118,7 @@ jQuery(function ($) {
     });
 
     /* === Search city === */
-    $('#country-popup').on('click', '#getCities ul li .statedata', function (e) {
+    $('#country-popup').on('click', '#getCities ul li .statedata', function(e) {
         e.stopPropagation();
         e.preventDefault();
         $('#getCities #results').hide();
@@ -133,16 +126,16 @@ jQuery(function ($) {
         var $item = $(this).closest('.statedata');
         var id = $item.data('id');
         var action = "ModelGetCityByStateID";
-        var data = {action: action, id: id};
+        var data = { action: action, id: id };
 
-        $.post(ajaxurl, data, function (result) {
+        $.post(ajaxurl, data, function(result) {
             $("#getCities #results").html(result);
             $('#getCities .loader').hide();
             $('#getCities #results').show();
         });
     });
 
-    $('#country-popup').on('click', '#getCities ul li #changeState', function (e) {
+    $('#country-popup').on('click', '#getCities ul li #changeState', function(e) {
         // Keep ads item click from being executed.
         e.stopPropagation();
         // Prevent navigating to '#'.
@@ -153,16 +146,16 @@ jQuery(function ($) {
         var $item = $(this).closest('.quick-states');
         var id = $item.data('country-id');
         var action = "ModelGetStateByCountryID";
-        var data = {action: action, id: id};
+        var data = { action: action, id: id };
 
-        $.post(ajaxurl, data, function (result) {
+        $.post(ajaxurl, data, function(result) {
             $("#getCities #results").html(result);
             $('#getCities .loader').hide();
             $('#getCities #results').show();
         });
     });
 
-    $('#country-popup').on('click', 'ul li .selectme', function (e) {
+    $('#country-popup').on('click', 'ul li .selectme', function(e) {
         e.stopPropagation();
         e.preventDefault();
         var id = $(this).data('id');
@@ -185,7 +178,7 @@ jQuery(function ($) {
         $("#searchDisplay").html('').hide();
     });
 
-    $('.category-dropdown').on('click', '#category-change a', function (ev) {
+    $('.category-dropdown').on('click', '#category-change a', function(ev) {
         if ("#" === $(this).attr('href')) {
             ev.preventDefault();
             var parent = $(this).parents('.category-dropdown');
@@ -196,28 +189,26 @@ jQuery(function ($) {
             if (type == "all") {
                 $('#input-subcat').val('');
                 $('#input-maincat').val('');
-            }
-            else if (type == "maincat") {
+            } else if (type == "maincat") {
                 $('#input-subcat').val('');
-            }
-            else {
+            } else {
                 $('#input-maincat').val('');
             }
             $('#input-' + type).val(id);
         }
-    }).on('click', '#category-change .dropdown-arrow', function (e) {
+    }).on('click', '#category-change .dropdown-arrow', function(e) {
         e.preventDefault();
         $(this).parent().toggleClass('open');
         return false;
     });
 
-    $('#searchStateCity').on('click', function () {
+    $('#searchStateCity').on('click', function() {
         $('#change-city').trigger('click');
     });
 
     var country = $('.quick-states').data('country-id');
     if (localStorage.Quick_placeText != "") {
-        if(localStorage.Quick_Country == country) {
+        if (localStorage.Quick_Country == country) {
             var placeText = localStorage.Quick_placeText;
             var PlaceId = localStorage.Quick_PlaceId;
             var PlaceType = localStorage.Quick_PlaceType;
@@ -233,7 +224,7 @@ jQuery(function ($) {
     }
 
     var searchCityAjax = null;
-    $("#inputStateCity").keyup(function () {
+    $("#inputStateCity").keyup(function() {
         if (searchCityAjax) {
             searchCityAjax.abort();
         }
@@ -241,14 +232,13 @@ jQuery(function ($) {
         var dataString = 'searchword1=' + searchbox;
 
         var action = "searchStateCountry";
-        var data = {action: action, dataString: searchbox};
+        var data = { action: action, dataString: searchbox };
 
         if (searchbox == '') {
             $('#searchDisplay').hide();
-        }
-        else {
+        } else {
             $('#searchDisplay').show();
-            searchCityAjax = $.post(ajaxurl, data, function (result) {
+            searchCityAjax = $.post(ajaxurl, data, function(result) {
                 $("#searchDisplay").html(result).show();
             });
         }
@@ -272,14 +262,14 @@ jQuery(function ($) {
     jQuery("#def-cats").append(jQuery('#qucikad-ajaxsearch-dropdown ul').html());
 
     var length = myDropOption.length;
-    inputField.on('click', function (event) {
+    inputField.on('click', function(event) {
         //event.preventDefault();
         myDropDown.attr('size', length);
         myDropDown.css('display', 'block');
     });
 
     //myDropDown1.on('click', function(event) {
-    jQuery(document).on('click', '#qucikad-ajaxsearch-dropdown ul li', function (event) {
+    jQuery(document).on('click', '#qucikad-ajaxsearch-dropdown ul li', function(event) {
         myDropDown.attr('size', 0);
         var dropValue = jQuery.trim(jQuery(this).text());
         var tagVal = jQuery(this).data('tagid');
@@ -298,7 +288,7 @@ jQuery(function ($) {
         myDropDown.css('display', 'none');
     });
 
-    jQuery('form i.qucikad-ajaxsearch-close').on('click', function () {
+    jQuery('form i.qucikad-ajaxsearch-close').on('click', function() {
         jQuery("form i.qucikad-ajaxsearch-close").css("display", "none");
         jQuery('form .qucikad-ajaxsearch-input').val('');
         jQuery("img.loadinerSearch").css("display", "block");
@@ -312,12 +302,12 @@ jQuery(function ($) {
                 'action': 'quickad_ajax_home_search',
                 'tagID': qString
             },
-            success: function (data) {
+            success: function(data) {
                 if (data) {
                     jQuery("#qucikad-ajaxsearch-dropdown ul").empty();
                     var resArray = [];
                     if (data.suggestions.cats) {
-                        jQuery.each(data.suggestions.cats, function (i, v) {
+                        jQuery.each(data.suggestions.cats, function(i, v) {
                             resArray.push(v);
                         });
 
@@ -331,7 +321,7 @@ jQuery(function ($) {
         jQuery('img.loadinerSearch').css('display', 'none');
     });
 
-    html.on('click', function (event) {
+    html.on('click', function(event) {
         //event.preventDefault();
         myDropDown.attr('size', 0);
         myDropDown.css('display', 'none');
@@ -339,7 +329,7 @@ jQuery(function ($) {
         jQuery("#searchDisplay").css('display', 'none');
     });
 
-    select.on('click', function (event) {
+    select.on('click', function(event) {
         event.stopPropagation();
     });
 
@@ -349,7 +339,7 @@ jQuery(function ($) {
     var prevQString = '?';
 
     function trimAttributes(node) {
-        jQuery.each(node.attributes, function () {
+        jQuery.each(node.attributes, function() {
             var attrName = this.name;
             var attrValue = this.value;
             // remove attribute name start with "on", possible unsafe,
@@ -365,13 +355,13 @@ jQuery(function ($) {
 
     function sanitize(html) {
         var output = jQuery($.parseHTML('<div>' + html + '</div>', null, false));
-        output.find('*').each(function () {
+        output.find('*').each(function() {
             trimAttributes(this);
         });
         return output.html();
     }
 
-    inputField.on('input', function () {
+    inputField.on('input', function() {
         var $this = jQuery(this);
         var qString = sanitize(this.value);
         lpsearchmode = jQuery('body').data('lpsearchmode');
@@ -394,8 +384,7 @@ jQuery(function ($) {
             $this.data("prev-value", qString.length);
             inputKeywordsField.val("");
             jQuery("form i.qucikad-ajaxsearch-close").css("display", "none");
-        }
-        else if ((qString.length == 1 && prevQString != qString) || (qString.length == 1 && prevQuery < qString.length)) {
+        } else if ((qString.length == 1 && prevQString != qString) || (qString.length == 1 && prevQuery < qString.length)) {
 
             myDropDown.css('display', 'none');
             jQuery("#qucikad-ajaxsearch-dropdown ul").empty();
@@ -412,19 +401,19 @@ jQuery(function ($) {
                     'action': 'quickad_ajax_home_search',
                     'tagID': qString
                 },
-                success: function (data) {
+                success: function(data) {
                     if (data) {
 
                         if (data.suggestions.tag || data.suggestions.tagsncats || data.suggestions.cats || data.suggestions.titles) {
 
                             if (data.suggestions.tag) {
-                                jQuery.each(data.suggestions.tag, function (i, v) {
+                                jQuery.each(data.suggestions.tag, function(i, v) {
                                     resArray.push(v);
                                 });
                             }
 
                             if (data.suggestions.tagsncats) {
-                                jQuery.each(data.suggestions.tagsncats, function (i, v) {
+                                jQuery.each(data.suggestions.tagsncats, function(i, v) {
                                     resArray.push(v);
                                 });
 
@@ -432,7 +421,7 @@ jQuery(function ($) {
 
 
                             if (data.suggestions.cats) {
-                                jQuery.each(data.suggestions.cats, function (i, v) {
+                                jQuery.each(data.suggestions.cats, function(i, v) {
 
                                     resArray.push(v);
 
@@ -440,13 +429,11 @@ jQuery(function ($) {
 
                                 if (data.suggestions.tag == null && data.suggestions.tagsncats == null && data.suggestions.titles == null) {
                                     resArray = resArray;
-                                }
-                                else {
-                                }
+                                } else {}
                             }
 
                             if (data.suggestions.titles) {
-                                jQuery.each(data.suggestions.titles, function (i, v) {
+                                jQuery.each(data.suggestions.titles, function(i, v) {
 
                                     resArray.push(v);
 
@@ -454,10 +441,9 @@ jQuery(function ($) {
 
                             }
 
-                        }
-                        else {
+                        } else {
                             if (data.suggestions.more) {
-                                jQuery.each(data.suggestions.more, function (i, v) {
+                                jQuery.each(data.suggestions.more, function(i, v) {
                                     resArray.push(v);
                                 });
 
@@ -469,20 +455,18 @@ jQuery(function ($) {
                         jQuery('img.loadinerSearch').css('display', 'none');
                         if (jQuery('form #select').val() == '') {
                             jQuery("form i.qucikad-ajaxsearch-close").css("display", "none");
-                        }
-                        else {
+                        } else {
                             jQuery("form i.qucikad-ajaxsearch-close").css("display", "block");
                         }
 
                         bufferedResArray = resArray;
                         filteredRes = [];
                         qStringNow = jQuery('.qucikad-ajaxsearch-input').val();
-                        jQuery.each(resArray, function (key, value) {
+                        jQuery.each(resArray, function(key, value) {
 
                             if (jQuery(value).find('a').length == "1") {
                                 rText = jQuery(value).find('a').text();
-                            }
-                            else {
+                            } else {
                                 rText = jQuery(value).text();
                             }
 
@@ -511,9 +495,7 @@ jQuery(function ($) {
                             myDropDown.css('display', 'block');
                             $this.data("prev-value", qString.length);
 
-                        }
-
-                        else if (filteredRes.length < 1 && qStringNow.length < 2) {
+                        } else if (filteredRes.length < 1 && qStringNow.length < 2) {
                             myDropDown.css('display', 'none');
                             jQuery("#qucikad-ajaxsearch-dropdown ul").empty();
                             jQuery('#qucikad-ajaxsearch-dropdown ul li').remove();
@@ -535,7 +517,7 @@ jQuery(function ($) {
             newResArray = [];
             myDropDown.css('display', 'none');
             jQuery("#qucikad-ajaxsearch-dropdown ul").empty();
-            jQuery.each(bufferedResArray, function (key, value) {
+            jQuery.each(bufferedResArray, function(key, value) {
                 var stringToCheck = jQuery(value).find('span').first().text();
 
                 if (lpsearchmode == "keyword") {
@@ -572,7 +554,7 @@ jQuery(function ($) {
     });
 
 
-    jQuery('.qucikad-ajaxsearch-input').on('click', function (event) {
+    jQuery('.qucikad-ajaxsearch-input').on('click', function(event) {
 
         jQuery("#qucikad-ajaxsearch-dropdown").niceScroll({
             cursorcolor: "#c9c9c9",
@@ -592,7 +574,7 @@ jQuery(function ($) {
     });
 
     <!-- Bid Acceptance Ajax -->
-    $(document).on('click', ".accept-offer" ,function(e){
+    $(document).on('click', ".accept-offer", function(e) {
         e.stopPropagation();
         e.preventDefault();
 
@@ -621,7 +603,7 @@ jQuery(function ($) {
         });
     });
 
-    $("#accept-bid-form").on('submit',function (e) {
+    $("#accept-bid-form").on('submit', function(e) {
         e.preventDefault();
         var form_data = {
             action: 'accept_bid',
@@ -634,13 +616,12 @@ jQuery(function ($) {
             url: ajaxurl,
             data: form_data,
             dataType: 'json',
-            success: function (response) {
-                if(response.success){
-                    $("#accept-bid-status").addClass('success').removeClass('error').html('<p>'+response.message+'</p>').slideDown();
+            success: function(response) {
+                if (response.success) {
+                    $("#accept-bid-status").addClass('success').removeClass('error').html('<p>' + response.message + '</p>').slideDown();
                     location.reload();
-                }
-                else {
-                    $("#accept-bid-status").removeClass('success').addClass('error').html('<p>'+response.message+'</p>').slideDown();
+                } else {
+                    $("#accept-bid-status").removeClass('success').addClass('error').html('<p>' + response.message + '</p>').slideDown();
                 }
                 $('#accept-bid-button').removeClass('button-progress').prop('disabled', false);
             }
@@ -649,7 +630,7 @@ jQuery(function ($) {
     });
     <!-- Bid Acceptance Ajax -->
 
-    $("#cancel-order-form").on('submit',function (e) {
+    $("#cancel-order-form").on('submit', function(e) {
         e.preventDefault();
         var form_data = {
             action: 'cancel_order',
@@ -663,13 +644,12 @@ jQuery(function ($) {
             url: ajaxurl,
             data: form_data,
             dataType: 'json',
-            success: function (response) {
-                if(response.success){
-                    $("#cancel-order-status").addClass('success').removeClass('error').html('<p>'+response.message+'</p>').slideDown();
+            success: function(response) {
+                if (response.success) {
+                    $("#cancel-order-status").addClass('success').removeClass('error').html('<p>' + response.message + '</p>').slideDown();
                     location.reload();
-                }
-                else {
-                    $("#cancel-order-status").removeClass('success').addClass('error').html('<p>'+response.message+'</p>').slideDown();
+                } else {
+                    $("#cancel-order-status").removeClass('success').addClass('error').html('<p>' + response.message + '</p>').slideDown();
                 }
                 $('#cancel-order-button').removeClass('button-progress').prop('disabled', false);
             }
@@ -677,7 +657,7 @@ jQuery(function ($) {
         return false;
     });
 
-    $("#create-milestone-form").on('submit',function (e) {
+    $("#create-milestone-form").on('submit', function(e) {
         e.preventDefault();
         var action = 'create_milestone';
         var data = $(this).serialize();
@@ -685,16 +665,15 @@ jQuery(function ($) {
         $('#create-milestone-button').addClass('button-progress').prop('disabled', true);
         $.ajax({
             type: "POST",
-            url: ajaxurl+'?action='+action,
+            url: ajaxurl + '?action=' + action,
             data: data,
             dataType: 'json',
-            success: function (response) {
-                if(response.success){
-                    $("#create-milestone-status").addClass('success').removeClass('error').html('<p>'+response.message+'</p>').slideDown();
+            success: function(response) {
+                if (response.success) {
+                    $("#create-milestone-status").addClass('success').removeClass('error').html('<p>' + response.message + '</p>').slideDown();
                     location.reload();
-                }
-                else {
-                    $("#create-milestone-status").removeClass('success').addClass('error').html('<p>'+response.message+'</p>').slideDown();
+                } else {
+                    $("#create-milestone-status").removeClass('success').addClass('error').html('<p>' + response.message + '</p>').slideDown();
                 }
                 $('#create-milestone-button').removeClass('button-progress').prop('disabled', false);
             }
@@ -702,7 +681,65 @@ jQuery(function ($) {
         return false;
     });
 
-    $('#js-table-list').on('click', '.item-ajax-button', function (e) {
+    $(".split_milestone_button").on('click', function(e) {
+        var milestone_id = $(this).closest("[data-item-id]").data("item-id");
+        $("#split-milestone-form").find("[name=id]").val(milestone_id);
+    });
+
+    $(".request_split_milestone_button").on('click', function(e) {
+        var milestone_id = $(this).closest("[data-item-id]").data("item-id");
+        $("#request-split-milestone-form").find("[name=id]").val(milestone_id);
+    });
+
+    $("#split-milestone-form").on('submit', function(e) {
+        e.preventDefault();
+        var action = 'split_milestone';
+        var data = $(this).serialize();
+
+        $('#split-milestone-button').addClass('button-progress').prop('disabled', true);
+        $.ajax({
+            type: "POST",
+            url: ajaxurl + '?action=' + action,
+            data: data,
+            dataType: 'json',
+            success: function(response) {
+                if (response.success) {
+                    $("#split-milestone-status").addClass('success').removeClass('error').html('<p>' + response.message + '</p>').slideDown();
+                    location.reload();
+                } else {
+                    $("#split-milestone-status").removeClass('success').addClass('error').html('<p>' + response.message + '</p>').slideDown();
+                }
+                $('#split-milestone-button').removeClass('button-progress').prop('disabled', false);
+            }
+        });
+        return false;
+    });
+
+    $("#request-split-milestone-form").on('submit', function(e) {
+        e.preventDefault();
+        var action = 'request_split_milestone';
+        var data = $(this).serialize();
+
+        $('#request-split-milestone-button').addClass('button-progress').prop('disabled', true);
+        $.ajax({
+            type: "POST",
+            url: ajaxurl + '?action=' + action,
+            data: data,
+            dataType: 'json',
+            success: function(response) {
+                if (response.success) {
+                    $("#request-split-milestone-status").addClass('success').removeClass('error').html('<p>' + response.message + '</p>').slideDown();
+                    location.reload();
+                } else {
+                    $("#request-split-milestone-status").removeClass('success').addClass('error').html('<p>' + response.message + '</p>').slideDown();
+                }
+                $('#request-split-milestone-button').removeClass('button-progress').prop('disabled', false);
+            }
+        });
+        return false;
+    });
+
+    $('#js-table-list').on('click', '.item-ajax-button', function(e) {
         // Keep ads item click from being executed.
         e.stopPropagation();
         // Prevent navigating to '#'.
@@ -711,25 +748,25 @@ jQuery(function ($) {
         var action = $(this).data('ajax-action');
         var alert_mesg = $(this).data('alert-message');
         var $item = $(this).closest('.ajax-item-listing');
-        var data = {action: action, id: $item.data('item-id')};
+        var data = { action: action, id: $item.data('item-id') };
         if (confirm(alert_mesg)) {
             $.ajax({
                 type: "POST",
-                url: ajaxurl+'?action='+action,
+                url: ajaxurl + '?action=' + action,
                 data: data,
                 dataType: 'json',
-                success: function (response) {
-                    if(response.success){
-                        Snackbar.show({text: response.message});
+                success: function(response) {
+                    if (response.success) {
+                        Snackbar.show({ text: response.message });
                         location.reload();
-                    }else{
-                        Snackbar.show({text: response.message});
+                    } else {
+                        Snackbar.show({ text: response.message });
                     }
                 }
             });
         }
     });
-    $('#js-table-list').on('click', '.item-js-close', function (e) {
+    $('#js-table-list').on('click', '.item-js-close', function(e) {
         // Keep ads item click from being executed.
         e.stopPropagation();
         // Prevent navigating to '#'.
@@ -737,19 +774,19 @@ jQuery(function ($) {
         // Ask user if he is sure.
         var action = $(this).data('ajax-action');
         var $item = $(this).closest('.ajax-item-listing');
-        var data = {action: action, id: $item.data('item-id')};
+        var data = { action: action, id: $item.data('item-id') };
         if (confirm(LANG_ARE_YOU_SURE)) {
-            $.post(ajaxurl + '?action=' + action, data, function (response) {
+            $.post(ajaxurl + '?action=' + action, data, function(response) {
                 if (response != 0) {
                     $item.remove();
-                    Snackbar.show({text: LANG_PROJECT_CLOSED});
+                    Snackbar.show({ text: LANG_PROJECT_CLOSED });
                 } else {
-                    Snackbar.show({text: LANG_ERROR_TRY_AGAIN});
+                    Snackbar.show({ text: LANG_ERROR_TRY_AGAIN });
                 }
             });
         }
     });
-    $('#js-table-list').on('click', '.item-js-delete', function (e) {
+    $('#js-table-list').on('click', '.item-js-delete', function(e) {
         // Keep ads item click from being executed.
         e.stopPropagation();
         // Prevent navigating to '#'.
@@ -757,46 +794,44 @@ jQuery(function ($) {
         // Ask user if he is sure.
         var action = $(this).data('ajax-action');
         var $item = $(this).closest('.ajax-item-listing');
-        var data = {action: action, id: $item.data('item-id')};
+        var data = { action: action, id: $item.data('item-id') };
         if (confirm(LANG_ARE_YOU_SURE)) {
-            $.post(ajaxurl + '?action=' + action, data, function (response) {
+            $.post(ajaxurl + '?action=' + action, data, function(response) {
                 if (response != 0) {
                     $item.remove();
-                    Snackbar.show({text: LANG_PROJECT_DELETED});
+                    Snackbar.show({ text: LANG_PROJECT_DELETED });
                 } else {
-                    Snackbar.show({text: LANG_ERROR_TRY_AGAIN});
+                    Snackbar.show({ text: LANG_ERROR_TRY_AGAIN });
                 }
             });
         }
     });
 
-    $('#js-table-list').on('click', '.item-js-hide', function (e) {
+    $('#js-table-list').on('click', '.item-js-hide', function(e) {
         e.stopPropagation();
         e.preventDefault();
         var action = $(this).data('ajax-action');
         var $item = $(this).closest('.ajax-item-listing');
-        var data = {action: action, id: $item.data('item-id')};
+        var data = { action: action, id: $item.data('item-id') };
 
-        $.post(ajaxurl + '?action=' + action, data, function (response) {
+        $.post(ajaxurl + '?action=' + action, data, function(response) {
             if (response == 1) {
                 $item.addClass('opapcityLight');
                 $item.find('.label-hidden').html(LANG_HIDDEN)
                 $item.find('.item-js-hide').attr('title', LANG_SHOW);
                 $item.find('.item-js-hide').html('<i class="icon-feather-eye"></i>');
-            }
-            else if (response == 2) {
+            } else if (response == 2) {
                 $item.removeClass('opapcityLight');
                 $item.find('.label-hidden').html(LANG_SHOW)
                 $item.find('.item-js-hide').attr('title', LANG_HIDE);
                 $item.find('.item-js-hide').html('<i class="icon-feather-eye-off"></i>');
-            }
-            else {
-                Snackbar.show({text: LANG_ERROR_TRY_AGAIN});
+            } else {
+                Snackbar.show({ text: LANG_ERROR_TRY_AGAIN });
             }
         });
     });
 
-    $('.ajax-delete-resume').on('click', function (e) {
+    $('.ajax-delete-resume').on('click', function(e) {
         // Keep ads item click from being executed.
         e.stopPropagation();
         // Prevent navigating to '#'.
@@ -804,20 +839,20 @@ jQuery(function ($) {
         // Ask user if he is sure.
         var action = 'deleteResume';
         var $item = $(this).closest('.resume-row');
-        var data = {action: action, id: $item.data('item-id')};
+        var data = { action: action, id: $item.data('item-id') };
         if (confirm(LANG_ARE_YOU_SURE)) {
-            $.post(ajaxurl + '?action=' + action, data, function (response) {
+            $.post(ajaxurl + '?action=' + action, data, function(response) {
                 if (response != 0) {
                     $item.remove();
-                    Snackbar.show({text: LANG_RESUME_DELETED});
+                    Snackbar.show({ text: LANG_RESUME_DELETED });
                 } else {
-                    Snackbar.show({text: LANG_ERROR_TRY_AGAIN});
+                    Snackbar.show({ text: LANG_ERROR_TRY_AGAIN });
                 }
             });
         }
     });
 
-    $('.ajax-delete-experience').on('click', function (e) {
+    $('.ajax-delete-experience').on('click', function(e) {
         // Keep ads item click from being executed.
         e.stopPropagation();
         // Prevent navigating to '#'.
@@ -825,20 +860,20 @@ jQuery(function ($) {
         // Ask user if he is sure.
         var action = 'deleteExperience';
         var $item = $(this).closest('.experience-row');
-        var data = {action: action, id: $item.data('item-id')};
+        var data = { action: action, id: $item.data('item-id') };
         if (confirm(LANG_ARE_YOU_SURE)) {
-            $.post(ajaxurl + '?action=' + action, data, function (response) {
+            $.post(ajaxurl + '?action=' + action, data, function(response) {
                 if (response != 0) {
                     $item.remove();
-                    Snackbar.show({text: LANG_EXPERIENCE_DELETED});
+                    Snackbar.show({ text: LANG_EXPERIENCE_DELETED });
                 } else {
-                    Snackbar.show({text: LANG_ERROR_TRY_AGAIN});
+                    Snackbar.show({ text: LANG_ERROR_TRY_AGAIN });
                 }
             });
         }
     });
 
-    $('.ajax-delete-company').on('click', function (e) {
+    $('.ajax-delete-company').on('click', function(e) {
         // Keep ads item click from being executed.
         e.stopPropagation();
         // Prevent navigating to '#'.
@@ -846,47 +881,47 @@ jQuery(function ($) {
         // Ask user if he is sure.
         var action = 'deleteCompany';
         var $item = $(this).closest('.company-row');
-        var data = {action: action, id: $item.data('item-id')};
+        var data = { action: action, id: $item.data('item-id') };
         if (confirm(LANG_ARE_YOU_SURE)) {
-            $.post(ajaxurl + '?action=' + action, data, function (response) {
+            $.post(ajaxurl + '?action=' + action, data, function(response) {
                 if (response != 0) {
                     $item.remove();
-                    Snackbar.show({text: LANG_COMPANY_DELETED});
+                    Snackbar.show({ text: LANG_COMPANY_DELETED });
                 } else {
-                    Snackbar.show({text: LANG_ERROR_TRY_AGAIN});
+                    Snackbar.show({ text: LANG_ERROR_TRY_AGAIN });
                 }
             });
         }
     });
 
     // blog comment with ajax
-    $('.blog-comment-form').on('submit', function (e) {
+    $('.blog-comment-form').on('submit', function(e) {
         e.preventDefault();
         var action = 'submitBlogComment';
         var data = $(this).serialize();
         var $parent_cmnt = $(this).find('#comment_parent').val();
         var $cmnt_field = $(this).find('#comment-field');
         var $btn = $(this).find('.button');
-        $btn.addClass('button-loader').prop('disabled',true);
+        $btn.addClass('button-loader').prop('disabled', true);
         $.ajax({
             type: "POST",
-            url: ajaxurl+'?action='+action,
+            url: ajaxurl + '?action=' + action,
             data: data,
             dataType: 'json',
-            success: function (response) {
-                $btn.removeClass('button-loader').prop('disabled',false);
-                if(response.success){
-                    if($parent_cmnt == 0){
+            success: function(response) {
+                $btn.removeClass('button-loader').prop('disabled', false);
+                if (response.success) {
+                    if ($parent_cmnt == 0) {
                         $('.latest-comments > ul').prepend(response.html);
-                    }else{
-                        $('#li-comment-'+$parent_cmnt).after(response.html);
+                    } else {
+                        $('#li-comment-' + $parent_cmnt).after(response.html);
                     }
                     $('html, body').animate({
-                        scrollTop: $("#li-comment-"+response.id).offset().top
+                        scrollTop: $("#li-comment-" + response.id).offset().top
                     }, 2000);
                     $cmnt_field.val('');
-                }else{
-                    $('#respond > .widget-content').prepend('<div class="notification error"><p>'+response.error+'</p></div>');
+                } else {
+                    $('#respond > .widget-content').prepend('<div class="notification error"><p>' + response.error + '</p></div>');
                 }
             }
         });
@@ -910,25 +945,23 @@ jQuery(document).ready(function($) {
         if (jQuery('.intro-search-field').is('.live-location-search')) {
             if (apiType === "geo_ip_db") {
                 jQuery.getJSON('https://geoip-db.com/json/geoip.php?jsonp=?')
-                    .done(function (location) {
+                    .done(function(location) {
 
                         getCityidByCityName(location.country_code, location.state, location.city);
                         jQuery('input[name=location]').val(location.city);
 
                         jQuery('.live-location-search .loc-tracking > i').fadeOut('slow');
                     });
-            }
-            else if (apiType === "ip_api") {
-                jQuery.get("https://ipapi.co/json", function (location) {
+            } else if (apiType === "ip_api") {
+                jQuery.get("https://ipapi.co/json", function(location) {
 
                     getCityidByCityName(location.country, location.region, location.city);
                     jQuery('input[name=location]').val(location.city);
 
                     jQuery('.live-location-search .loc-tracking > i').fadeOut('slow');
                 }, "json");
-            }
-            else {
-                GetCurrentGpsLoc(function (GpsLocationCityData) {
+            } else {
+                GetCurrentGpsLoc(function(GpsLocationCityData) {
                     myCurrentGpsLocation = GpsLocationCityData;
                     getCityidByCityName(myCurrentGpsLocation.country, myCurrentGpsLocation.region, myCurrentGpsLocation.city);
                     jQuery('input[name=location]').val(myCurrentGpsLocation.city);
@@ -938,20 +971,17 @@ jQuery(document).ready(function($) {
             }
 
         }
-    }
-    else if (loc == 'no') {
-        jQuery('.live-location-search .loc-tracking > i').on('click', function (event) {
+    } else if (loc == 'no') {
+        jQuery('.live-location-search .loc-tracking > i').on('click', function(event) {
             event.preventDefault();
             jQuery(this).addClass('fa fa-circle-o-notch fa-spin');
             jQuery(this).removeClass('la la-crosshairs');
             if (jQuery('.intro-search-field').is('.live-location-search')) {
                 if (apiType === "geo_ip_db") {
                     jQuery.getJSON('https://geoip-db.com/json/geoip.php?jsonp=?')
-                        .done(function (location) {
+                        .done(function(location) {
 
-                            if (location.city == null) {
-                            }
-                            else {
+                            if (location.city == null) {} else {
                                 getCityidByCityName(location.country_code, location.state, location.city);
                                 jQuery('input[name=latitude]').val(location.latitude);
                                 jQuery('input[name=longitude]').val(location.longitude);
@@ -959,12 +989,9 @@ jQuery(document).ready(function($) {
                             }
                             jQuery('.live-location-search .loc-tracking > i').fadeOut('slow');
                         });
-                }
-                else if (apiType === "ip_api") {
-                    jQuery.get("https://ipapi.co/json", function (location) {
-                        if (location.city == null) {
-                        }
-                        else {
+                } else if (apiType === "ip_api") {
+                    jQuery.get("https://ipapi.co/json", function(location) {
+                        if (location.city == null) {} else {
                             getCityidByCityName(location.country, location.region, location.city);
 
                             jQuery('input[name=latitude]').val(location.latitude);
@@ -974,10 +1001,9 @@ jQuery(document).ready(function($) {
                         jQuery('.live-location-search .loc-tracking > i').fadeOut('slow');
 
                     }, "json");
-                }
-                else {
+                } else {
 
-                    GetCurrentGpsLoc(function (GpsLocationCityData) {
+                    GetCurrentGpsLoc(function(GpsLocationCityData) {
                         myCurrentGpsLocation = GpsLocationCityData;
                         getCityidByCityName(myCurrentGpsLocation.country, myCurrentGpsLocation.region, myCurrentGpsLocation.city);
                         jQuery('input[name=location]').val(myCurrentGpsLocation.city);
@@ -992,12 +1018,13 @@ jQuery(document).ready(function($) {
 
 //GPS LIVE LOCATION
 var geocoderr;
-function GetCurrentGpsLoc(lpcalback){
+
+function GetCurrentGpsLoc(lpcalback) {
     if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function(position){
+        navigator.geolocation.getCurrentPosition(function(position) {
             var clat = position.coords.latitude;
             var clong = position.coords.longitude;
-            jpCodeLatLng(clat,clong, function(citynamevalue){
+            jpCodeLatLng(clat, clong, function(citynamevalue) {
 
                 lpcalback(citynamevalue);
 
@@ -1016,9 +1043,9 @@ function lpgeocodeinitialize() {
 
 function jpCodeLatLng(lat, lng, lpcitycallback) {
 
-    latlng 	 = new google.maps.LatLng(lat, lng),
+    latlng = new google.maps.LatLng(lat, lng),
         geocoderrr = new google.maps.Geocoder();
-    geocoderrr.geocode({'latLng': latlng}, function(results, status) {
+    geocoderrr.geocode({ 'latLng': latlng }, function(results, status) {
         if (status == google.maps.GeocoderStatus.OK) {
             if (results[1]) {
                 for (var i = 0; i < results.length; i++) {
@@ -1034,20 +1061,18 @@ function jpCodeLatLng(lat, lng, lpcitycallback) {
                         lpcitycallback($citydata);
                     }
                 }
-            }
-            else {console.log("No reverse geocode results.")}
-        }
-        else {console.log("Geocoder failed: " + status)}
+            } else { console.log("No reverse geocode results.") }
+        } else { console.log("Geocoder failed: " + status) }
     });
 }
 
-function getCityidByCityName(country,state,city) {
-    var data = {action: "getCityidByCityName", city: city, state: state, country: country};
+function getCityidByCityName(country, state, city) {
+    var data = { action: "getCityidByCityName", city: city, state: state, country: country };
     $.ajax({
         type: "POST",
         url: ajaxurl,
         data: data,
-        success: function (result) {
+        success: function(result) {
             $('#searchPlaceType').val("city");
             $('#searchPlaceId').val(result);
         }

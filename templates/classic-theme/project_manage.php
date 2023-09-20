@@ -71,6 +71,14 @@ overall_header(__(""));
                                                             echo '<div class="dashboard-status-button blue">'.__("Pending For Approval").'</div>';
                                                         if($item['status'] == "under_development")
                                                             echo '<div class="dashboard-status-button yellow">'.__("Under Development").'</div>';
+                                                        if($item['status'] == "dispute")
+                                                            echo '<div class="dashboard-status-button yellow">'.__("Dispute").'</div>';
+                                                        if($item['status'] == "deliver")
+                                                            echo '<div class="dashboard-status-button blue">'.__("Delivered").'</div>';
+                                                        if($item['status'] == "reject_request")
+                                                            echo '<div class="dashboard-status-button red" data-tippy title="You have 3 days to accept or deny request otherwise order will be completed" data-tippy-placement = "top">'.__("Reject request").'</div>';
+                                                        if($item['status'] == "rejected")
+                                                            echo '<div class="dashboard-status-button red">'.__("Rejected").'</div>';
                                                         if($item['status'] == "completed")
                                                             echo '<div class="dashboard-status-button green">'.__("Completed").'</div>';
                                                         if($item['status'] == "final_review_pending")
@@ -117,7 +125,7 @@ overall_header(__(""));
                                             if($usertype == "employer"){
                                                 if($item['status'] == 'open' || $item['status'] == 'pending_for_approval'){
                                                     echo '<a href="'.url("BIDDER",false).'/'._esc($item['id'],false).'" class="button ripple-effect"><i class="icon-material-outline-supervisor-account"></i> '.__("Manage Bidders").' <span class="button-info">'._esc($item['bids_count'],false).'</span></a>';
-                                                }elseif($item['status'] == 'under_development'){
+                                                }elseif(in_array($item['status'], ['under_development', 'dispute', 'deliver', 'split','reject_request'])){
                                                     echo '<a href="'.url("MILESTONE",false).'/'._esc($item['id'],false).'" class="button ripple-effect"><i class="icon-material-outline-supervisor-account"></i> '.__("Milestone").' </a>';
                                                 }
 
@@ -128,7 +136,7 @@ overall_header(__(""));
                                                 if($item['freelancer_id'] == $user_id && $item['status'] == 'pending_for_approval'){
                                                     echo '<a href="'._esc($item['link'],false).'" class="button green ripple-effect"><i class="icon-feather-award"></i> '.__("Accept/Deny Offer").'</a>';
                                                 }
-                                                if($item['freelancer_id'] == $user_id && $item['status'] == 'under_development'){
+                                                if($item['freelancer_id'] == $user_id && in_array($item['status'], ['under_development', 'dispute', 'deliver', 'split','reject_request'])){
                                                     echo '<a href="'.url("MILESTONE",false).'/'._esc($item['id'],false).'" class="button ripple-effect"><i class="icon-material-outline-supervisor-account"></i> '.__("Milestone").' </a>';
                                                 }
                                             }
