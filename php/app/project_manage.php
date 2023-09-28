@@ -113,8 +113,18 @@ if(checkloggedin()) {
                 }else{
                     $items[$info['id']]['rated'] = 1;
                 }
+
+                $split_percent = project_split_percent($info['id']);
+                $items[$info['id']]['split_percent'] = $split_percent;
             }else{
                 $items[$info['id']]['rated'] = 0;
+                if ($info['status'] == "split_request") {
+                    $split_percent = project_split_percent($info['id'], false);
+                    $items[$info['id']]['split_percent'] = $split_percent;
+                }
+                else {
+                    $items[$info['id']]['split_percent'] = 0;
+                }
             }
 
 

@@ -139,7 +139,8 @@ if(isset($_SESSION['admin']['id'])){
                                 <li><a href="<?php echo ADMINURL; ?>app/projects.php?status=close">Closed</a></li>
                                 <li><a href="<?php echo ADMINURL; ?>app/projects.php?status=dispute">Dispute</a></li>
                                 <li><a href="<?php echo ADMINURL; ?>app/projects.php?status=deliver">Delivered</a></li>
-                                <li><a href="<?php echo ADMINURL; ?>app/projects.php?status=split">Split</a></li>
+                                <li><a href="<?php echo ADMINURL; ?>app/projects.php?status=split_request">Split request</a></li>
+                                <li><a href="<?php echo ADMINURL; ?>app/projects.php?status=rejected">Rejected</a></li>
                                 <li><a href="<?php echo ADMINURL; ?>app/projects.php">All Projects List</a></li>
                             </ul>
                         </li>

@@ -49,8 +49,13 @@ overall_header(__("Milestones"));
                                     echo '<div class="dashboard-status-button red">'.__("Rejected").'</div>';
                                 if($project_status == "split_request")
                                     echo '<div class="dashboard-status-button blue" data-tippy title="You have 3 days to accept or deny split request otherwise order will be completed with a split" data-tippy-placement = "top">'.__("Split request").'</div>';
-                                if($project_status == "completed")
-                                    echo '<div class="dashboard-status-button green">'.__("Completed").'</div>';
+                                if($project_status == "completed") {
+                                    $_status = __("Completed");
+                                    if ($split_percent) {
+                                        $_status .= ' ' .  __("split") . ' ' . $split_percent . '%';
+                                    }
+                                    echo '<div class="dashboard-status-button green">'.$_status.'</div>';
+                                }
                                 if($project_status == "final_review_pending")
                                     echo '<div class="dashboard-status-button yellow">'.__("Final Review Pending").'</div>';
                                 if($project_status == "closed")
@@ -60,7 +65,7 @@ overall_header(__("Milestones"));
                                 ?>
                             </h3>
 
-                            <?php if($usertype == "employer"){ ?>
+                            <?php if($usertype == "employer" && count($milestones) == 0){ ?>
                             <a href="#small-dialog-1" class="popup-with-zoom-anim button ripple-effect"><i class="icon-feather-plus"></i> <?php _e("Create Milestone") ?></a>
                             <?php } ?>
                         </div>
@@ -147,7 +152,11 @@ overall_header(__("Milestones"));
                                                 elseif($milestone['request_id'] == 2)
                                                 {
                                                     if ($milestone['status'] != 'rejected') {
-                                                        echo '<span class="dashboard-status-button blue">'.__("Released").'</span>';
+                                                        $_status = __("Released");
+                                                        if ($milestone['status'] == 'paid_splited' && $milestone['split_percent']) {
+                                                            $_status .= ' ' .  __("split") . ' ' . $milestone['split_percent'] . '%';
+                                                        }
+                                                        echo '<span class="dashboard-status-button blue">'.$_status.'</span>';
                                                     }
                                                     else {
                                                         echo '<span class="dashboard-status-button red">'.__("Rejected").'</span>';

@@ -173,6 +173,81 @@ overall_header(__("Dashboard"));
                                                     <span class="notification-icon"><i class="icon-material-outline-monetization-on"></i></span>
                                                     <span class="notification-text"><strong><?php _esc($sender) ?></strong> <?php _e("Deposit") ?> <?php _esc($msg) ?> <?php _e("to") ?> <span class="color"><?php _e("Wallet") ?></span></span>
                                                 </a>
+                                            <?php }elseif($note['type'] == "milestone_dispute"){ ?>
+                                                <a href="<?php url("MILESTONE") ?>/<?php _esc($id) ?>">
+                                                    <span class="notification-icon"><i class="icon-material-outline-assignment"></i></span>
+                                                    <span class="notification-text"><strong><?php _esc($sender) ?></strong> <?php _e("dispute milestone") ?> <?php _e("for") ?> <span class="color"><?php _esc($title) ?></span></span>
+                                                </a>
+                                            <?php }elseif($note['type'] == "milestone_request_dispute"){ ?>
+                                                <a href="<?php url("MILESTONE") ?>/<?php _esc($id) ?>">
+                                                    <span class="notification-icon"><i class="icon-material-outline-assignment"></i></span>
+                                                    <span class="notification-text"><strong><?php _esc($sender) ?></strong> <?php _e("dispute milestone") ?> <?php _e("for") ?> <span class="color"><?php _esc($title) ?></span></span>
+                                                </a>
+                                            <?php }elseif($note['type'] == "milestone_deliver"){ ?>
+                                                <a href="<?php url("MILESTONE") ?>/<?php _esc($id) ?>">
+                                                    <span class="notification-icon"><i class="icon-material-outline-assignment"></i></span>
+                                                    <span class="notification-text"><strong><?php _esc($sender) ?></strong> <?php _e("milestone deliver") ?> <?php _e("for") ?> <span class="color"><?php _esc($title) ?></span></span>
+                                                </a>
+                                            <?php }elseif($note['type'] == "milestone_reject"){ ?>
+                                                <a href="<?php url("MILESTONE") ?>/<?php _esc($id) ?>">
+                                                    <span class="notification-icon"><i class="icon-material-outline-assignment"></i></span>
+                                                    <span class="notification-text"><strong><?php _esc($sender) ?></strong> <?php _e("request reject") ?> <?php _e("for") ?> <span class="color"><?php _esc($title) ?></span></span>
+                                                </a>
+                                            <?php }elseif($note['type'] == "milestone_request_reject"){ ?>
+                                                <a href="<?php url("MILESTONE") ?>/<?php _esc($id) ?>">
+                                                    <span class="notification-icon"><i class="icon-material-outline-assignment"></i></span>
+                                                    <span class="notification-text"><strong><?php _esc($sender) ?></strong> <?php _e("request reject") ?> <?php _e("for") ?> <span class="color"><?php _esc($title) ?></span></span>
+                                                </a>
+                                            <?php }elseif($note['type'] == "milestone_deny_reject"){ ?>
+                                                <a href="<?php url("MILESTONE") ?>/<?php _esc($id) ?>">
+                                                    <span class="notification-icon"><i class="icon-material-outline-assignment"></i></span>
+                                                    <span class="notification-text"><strong><?php _esc($sender) ?></strong> <?php _e("deny request reject") ?> <?php _e("for") ?> <span class="color"><?php _esc($title) ?></span></span>
+                                                </a>
+                                            <?php }elseif($note['type'] == "milestone_request_deny_reject"){ ?>
+                                                <a href="<?php url("MILESTONE") ?>/<?php _esc($id) ?>">
+                                                    <span class="notification-icon"><i class="icon-material-outline-assignment"></i></span>
+                                                    <span class="notification-text"><strong><?php _esc($sender) ?></strong> <?php _e("deny request reject") ?> <?php _e("for") ?> <span class="color"><?php _esc($title) ?></span></span>
+                                                </a>
+                                            <?php }elseif($note['type'] == "milestone_accept_reject"){ ?>
+                                                <a href="<?php url("MILESTONE") ?>/<?php _esc($id) ?>">
+                                                    <span class="notification-icon"><i class="icon-material-outline-assignment"></i></span>
+                                                    <span class="notification-text"><strong><?php _esc($sender) ?></strong> <?php _e("accept request reject") ?> <?php _e("for") ?> <span class="color"><?php _esc($title) ?></span></span>
+                                                </a>
+                                            <?php }elseif($note['type'] == "milestone_accept_request_reject"){ ?>
+                                                <a href="<?php url("MILESTONE") ?>/<?php _esc($id) ?>">
+                                                    <span class="notification-icon"><i class="icon-material-outline-assignment"></i></span>
+                                                    <span class="notification-text"><strong><?php _esc($sender) ?></strong> <?php _e("accept request reject") ?> <?php _e("for") ?> <span class="color"><?php _esc($title) ?></span></span>
+                                                </a>
+                                            <?php }elseif($note['type'] == "milestone_split"){ ?>
+                                                <a href="<?php url("MILESTONE") ?>/<?php _esc($id) ?>">
+                                                    <span class="notification-icon"><i class="icon-material-outline-assignment"></i></span>
+                                                    <span class="notification-text"><strong><?php _esc($sender) ?></strong> <?php _e("request split") ?> <?php _esc($msg) ?>% <?php _e("for") ?> <span class="color"><?php _esc($title) ?></span></span>
+                                                </a>
+                                            <?php }elseif($note['type'] == "milestone_request_split"){ ?>
+                                                <a href="<?php url("MILESTONE") ?>/<?php _esc($id) ?>">
+                                                    <span class="notification-icon"><i class="icon-material-outline-assignment"></i></span>
+                                                    <span class="notification-text"><strong><?php _esc($sender) ?></strong> <?php _e("request split") ?> <?php _esc($msg) ?>% <?php _e("for") ?> <span class="color"><?php _esc($title) ?></span></span>
+                                                </a>
+                                            <?php }elseif($note['type'] == "milestone_deny_split"){ ?>
+                                                <a href="<?php url("MILESTONE") ?>/<?php _esc($id) ?>">
+                                                    <span class="notification-icon"><i class="icon-material-outline-assignment"></i></span>
+                                                    <span class="notification-text"><strong><?php _esc($sender) ?></strong> <?php _e("deny request split") ?> <?php _esc($msg) ?>% <?php _e("for") ?> <span class="color"><?php _esc($title) ?></span></span>
+                                                </a>
+                                            <?php }elseif($note['type'] == "milestone_request_deny_split"){ ?>
+                                                <a href="<?php url("MILESTONE") ?>/<?php _esc($id) ?>">
+                                                    <span class="notification-icon"><i class="icon-material-outline-assignment"></i></span>
+                                                    <span class="notification-text"><strong><?php _esc($sender) ?></strong> <?php _e("deny request split") ?> <?php _esc($msg) ?>% <?php _e("for") ?> <span class="color"><?php _esc($title) ?></span></span>
+                                                </a>
+                                            <?php }elseif($note['type'] == "milestone_accept_split"){ ?>
+                                                <a href="<?php url("MILESTONE") ?>/<?php _esc($id) ?>">
+                                                    <span class="notification-icon"><i class="icon-material-outline-assignment"></i></span>
+                                                    <span class="notification-text"><strong><?php _esc($sender) ?></strong> <?php _e("accept request split") ?> <?php _esc($msg) ?>% <?php _e("and") ?> <?php _e("milestone released") ?> <?php _e("for") ?> <span class="color"><?php _esc($title) ?></span></span>
+                                                </a>
+                                            <?php }elseif($note['type'] == "milestone_request_accept_split"){ ?>
+                                                <a href="<?php url("MILESTONE") ?>/<?php _esc($id) ?>">
+                                                    <span class="notification-icon"><i class="icon-material-outline-assignment"></i></span>
+                                                    <span class="notification-text"><strong><?php _esc($sender) ?></strong> <?php _e("accept request split") ?> <?php _esc($msg) ?>% <?php _e("and") ?> <?php _e("milestone released") ?> <?php _e("for") ?> <span class="color"><?php _esc($title) ?></span></span>
+                                                </a>
                                             <?php }else{ ?>
 
                                                 </a>

@@ -56,12 +56,29 @@ $count = ORM::for_table($config['db']['pre'] . 'milestone')
                                 if ($info['status'] == 'dispute') {
                                     $status = '<span class="badge btn-warning fs-12">'.__("Dispute").'</span>';
                                 }
+                                else if ($info['status'] == 'deliver') {
+                                    $status = '<span class="badge btn-info fs-12">'.__("Deliver").'</span>';
+                                }
+                                else if ($info['status'] == 'split_employer' || $info['status'] == 'split_freelancer') {
+                                    $status = '<span class="badge btn-info fs-12">'.__("Split request").'</span>';
+                                }
+                                else if ($info['status'] == 'reject_employer' || $info['status'] == 'reject_freelancer') {
+                                    $status = '<span class="badge btn-danger fs-12">'.__("Reject request").'</span>';
+                                }
                                 else {
                                     $status = '<span class="badge btn-warning fs-12">'.__("Request for release").'</span>';
                                 }
                             }
                             elseif($info['request'] == 2) {
-                                $status = '<span class="badge btn-info fs-12">'.__("Released").'</span>';
+                                if ($info['status'] == 'rejected') {
+                                    $status = '<span class="badge btn-danger fs-12">'.__("Rejected").'</span>';
+                                }
+                                else if ($info['status'] == 'paid_splited') {
+                                    $status = '<span class="badge btn-info fs-12">'.__("Released split").'</span>';
+                                }
+                                else {
+                                    $status = '<span class="badge btn-info fs-12">'.__("Released").'</span>';
+                                }
                             }
                             elseif($info['request'] == 3) {
                                 $status = '<span class="badge btn-danger fs-12">'.__("Request for release").'</span>';

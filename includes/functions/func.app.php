@@ -1892,6 +1892,32 @@ function rating_exist($project_id,$post_type='default'){
         return false;
 }
 
+/**
+ * Check rating exist
+ * @param string $post_type 'default' or 'gig'
+ * @param int $project_id
+ * @return bool
+ */
+function project_split_percent($project_id, $is_only_paid = true){
+    global $config;
+
+    $statuses = $is_only_paid ? ['paid_splited'] : ['split_employer', 'split_freelancer'];
+
+    $milestone_splited = ORM::for_table($config['db']['pre'] . 'milestone')
+            ->where(array(
+                'project_id' => $project_id,
+            ))
+            ->whereIn('status', $statuses)
+            ->find_one();
+
+
+    if ($milestone_splited) {
+        return $milestone_splited['split_percent'];
+    }
+
+    return 0;
+}
+
 
 /**
  * update product view

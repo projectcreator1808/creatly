@@ -34,6 +34,8 @@ if(checkloggedin()) {
     $project_status = $project['status'];
     $freelancer_id = $project['freelancer_id'];
 
+    $split_percent = project_split_percent($project_id);
+
     $bid = ORM::for_table($config['db']['pre'] . 'bids')
         ->select('amount')
         ->where(array(
@@ -81,6 +83,9 @@ if(checkloggedin()) {
 
             if($info['status'] == 'paid'){
                 $epaid = $epaid + $info['amount'];
+            }
+            elseif ($info['status'] == 'paid_splited') {
+                $epaid = $epaid + ($info['amount'] * ($info['split_percent'] / 100));
             }else{
                 $epending = $epending + $info['amount'];
             }
@@ -103,12 +108,13 @@ if(checkloggedin()) {
         'project_id' => $project_id,
         'project_name' => $project_title,
         'project_status' => $project_status,
+        'split_percent' => $split_percent,
         'amount' => $project_amount,
         'remainning_amount' => $remaining_amount,
         'epaid' => $epaid,
         'epanding' => $epending,
         'total_ea' => $total_escrow,
-        'totalitem' => $total_item
+        'totalitem' => $total_item,
     ));
     exit;
 }

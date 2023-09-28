@@ -35,13 +35,25 @@ overall_header(__(""));
                             <form method="get" action="" class="d-flex" id="form_search">
                                 <div class="margin-right-10">
                                     <select class="with-border padding-top-0 padding-bottom-0 margin-bottom-0" name="status" id="project_status">
-                                        <option value=""><?php _e("Status") ?></option>
-                                        <option value="open"><?php _e("Open") ?></option>
-                                        <option value="under_development"><?php _e("Under Development") ?></option>
-                                        <option value="completed"><?php _e("Completed") ?></option>
-                                        <option value="final_review_pending"><?php _e("Final Review Pending") ?></option>
-                                        <option value="closed"><?php _e("Closed") ?></option>
-                                        <option value="incomplete"><?php _e("Incomplete") ?></option>
+                                        <?php 
+                                            $statuses = [
+                                                '' => __("Status"),
+                                                'open' => __("Open"),
+                                                'under_development' => __("Under Development"),
+                                                'completed' => __("Completed"),
+                                                'final_review_pending' => __("Final Review Pending"),
+                                                'split_request' => __("Split request"),
+                                                'reject_request' => __("Reject request"),
+                                                'rejected' => __("Rejected"),
+                                                'closed' => __("Closed"),
+                                                'incomplete' => __("Incomplete"),
+                                            ];
+                                            foreach ($statuses as $val => $op) {
+                                        ?>
+                                        <option value = "<?=$val?>" <?php echo $val == $_GET['status'] ? 'selected' : '' ?> >
+                                            <?=$op ?>
+                                        </option>
+                                        <?php } ?>
                                     </select>
                                 </div>
                                 <div class="input-with-icon">
@@ -77,10 +89,18 @@ overall_header(__(""));
                                                             echo '<div class="dashboard-status-button blue">'.__("Delivered").'</div>';
                                                         if($item['status'] == "reject_request")
                                                             echo '<div class="dashboard-status-button red" data-tippy title="You have 3 days to accept or deny request otherwise order will be completed" data-tippy-placement = "top">'.__("Reject request").'</div>';
+                                                        if($item['status'] == "split_request") {
+                                                            echo '<div class="dashboard-status-button blue" data-tippy title="You have 3 days to accept or deny split request otherwise order will be completed with a split" data-tippy-placement = "top">'.__("Split request"). ' ' . $item['split_percent'] . '%</div>';
+                                                        }
                                                         if($item['status'] == "rejected")
                                                             echo '<div class="dashboard-status-button red">'.__("Rejected").'</div>';
-                                                        if($item['status'] == "completed")
-                                                            echo '<div class="dashboard-status-button green">'.__("Completed").'</div>';
+                                                        if($item['status'] == "completed") {
+                                                            $_status = __("Completed");
+                                                            if ($item['split_percent']) {
+                                                                $_status .= ' ' .  __("split") . ' ' . $item['split_percent'] . '%';
+                                                            }
+                                                            echo '<div class="dashboard-status-button green">'.$_status.'</div>';
+                                                        }
                                                         if($item['status'] == "final_review_pending")
                                                             echo '<div class="dashboard-status-button yellow">'.__("Final Review Pending").'</div>';
                                                         if($item['status'] == "closed")
@@ -125,7 +145,7 @@ overall_header(__(""));
                                             if($usertype == "employer"){
                                                 if($item['status'] == 'open' || $item['status'] == 'pending_for_approval'){
                                                     echo '<a href="'.url("BIDDER",false).'/'._esc($item['id'],false).'" class="button ripple-effect"><i class="icon-material-outline-supervisor-account"></i> '.__("Manage Bidders").' <span class="button-info">'._esc($item['bids_count'],false).'</span></a>';
-                                                }elseif(in_array($item['status'], ['under_development', 'dispute', 'deliver', 'split','reject_request'])){
+                                                }elseif(in_array($item['status'], ['under_development', 'dispute', 'deliver', 'split_request','reject_request'])){
                                                     echo '<a href="'.url("MILESTONE",false).'/'._esc($item['id'],false).'" class="button ripple-effect"><i class="icon-material-outline-supervisor-account"></i> '.__("Milestone").' </a>';
                                                 }
 
@@ -136,7 +156,7 @@ overall_header(__(""));
                                                 if($item['freelancer_id'] == $user_id && $item['status'] == 'pending_for_approval'){
                                                     echo '<a href="'._esc($item['link'],false).'" class="button green ripple-effect"><i class="icon-feather-award"></i> '.__("Accept/Deny Offer").'</a>';
                                                 }
-                                                if($item['freelancer_id'] == $user_id && in_array($item['status'], ['under_development', 'dispute', 'deliver', 'split','reject_request'])){
+                                                if($item['freelancer_id'] == $user_id && in_array($item['status'], ['under_development', 'dispute', 'deliver', 'split_request','reject_request'])){
                                                     echo '<a href="'.url("MILESTONE",false).'/'._esc($item['id'],false).'" class="button ripple-effect"><i class="icon-material-outline-supervisor-account"></i> '.__("Milestone").' </a>';
                                                 }
                                             }

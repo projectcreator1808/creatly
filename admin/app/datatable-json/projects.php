@@ -115,7 +115,8 @@ foreach ($queryRecords as $row) {
     }
     elseif($ad_status == "completed")
     {
-        $status = '<span class="label label-primary">Completed</span>';
+        $split_percent = project_split_percent($id);
+        $status = '<span class="label label-primary">Completed split ' . $split_percent . '%</span>';
     }
     elseif($ad_status == "incomplete")
     {
@@ -124,6 +125,19 @@ foreach ($queryRecords as $row) {
     elseif($ad_status == "dispute")
     {
         $status = '<span class="label label-warning">Dispute</span>';
+    }
+    elseif($ad_status == "deliver")
+    {
+        $status = '<span class="label label-info">Deliver</span>';
+    }
+    elseif($ad_status == "split_request")
+    {
+        $split_percent = project_split_percent($id, false);
+        $status = '<span class="label label-info">Split request ' . $split_percent . '%</span>';
+    }
+    elseif($ad_status == "rejected")
+    {
+        $status = '<span class="label label-danger">Rejected</span>';
     }
     elseif($ad_status == "incomplete")
     {

@@ -73,8 +73,6 @@ $output = json_decode(curl_exec($ch), true);
 // Close Channel
 curl_close($ch);
 
-$output = ['success' => true];
-
 if(is_array($output)){
     if ($output['success']) {
         $db_host = Input::post("db_host");
