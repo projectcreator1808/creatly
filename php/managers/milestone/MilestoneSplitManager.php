@@ -9,13 +9,28 @@ class MilestoneSplitManager extends MilestoneManager
         $freelancer_id = $milestone['freelancer_id'];
         $amount = $milestone['amount'] * ($milestone['split_percent'] / 100);
 
+        $update_balance = ORM::for_table($config['db']['pre'].'user')
+                    ->where('id' , $freelancer_id)
+                    ->find_one();
+        $update_balance->set_expr('balance', 'balance+'.$amount);
+        $update_balance->save();
+
+        $project_id = $milestone['project_id'];
+        $project = ORM::for_table($config['db']['pre'].'project')
+            ->select('product_name')
+            ->where('id' , $project_id)
+            ->find_one();
+
+        $this->saveTransaction($project['product_name'], $project_id, $freelancer_id, $amount, "Milestone Splited", 'milestone_splited');
+
         $group_info = get_user_membership_settings();
         $freelancer_commission = $group_info['freelancer_commission'];
+        $comission = 0;
         if($freelancer_commission != 0){
             $comission = (($amount/100)*$freelancer_commission);
             minus_balance($freelancer_id,$comission);
         }
-    
+
         if($comission > 0){
             //Update Amount in Admin balance table
             $balance = ORM::for_table($config['db']['pre'].'balance')->find_one(1);
@@ -27,19 +42,12 @@ class MilestoneSplitManager extends MilestoneManager
             $balance->total_earning = $total_earning;
             $balance->save();
         }
-
-        $update_balance = ORM::for_table($config['db']['pre'].'user')
-                    ->where('id' , $freelancer_id)
-                    ->find_one();
-        $update_balance->set_expr('balance', 'balance+'.$amount);
-        $update_balance->save();
     }
 
     private function revertBalanceForAccept($milestone)
     {
         global $config;
 
-        
         $employer_id = $milestone['employer_id'];
         $user_data = get_user_data(null, $employer_id);
         $employer_balance = $user_data['balance'];
@@ -50,6 +58,14 @@ class MilestoneSplitManager extends MilestoneManager
         $user_update = ORM::for_table($config['db']['pre'] . 'user')->find_one($employer_id);
         $user_update->set('balance', $deducted);
         $user_update->save();
+
+        $project_id = $milestone['project_id'];
+        $project = ORM::for_table($config['db']['pre'].'project')
+            ->select('product_name')
+            ->where('id' , $project_id)
+            ->find_one();
+
+        $this->saveTransaction($project['product_name'], $project_id, $employer_id, $amount, "Milestone Splited", 'milestone_splited');
     }
 
     function split(){

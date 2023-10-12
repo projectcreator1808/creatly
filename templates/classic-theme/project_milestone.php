@@ -37,8 +37,14 @@ overall_header(__("Milestones"));
                                     echo '<div class="dashboard-status-button green">'.__("Open").'</div>';
                                 if($project_status == "pending_for_approval")
                                     echo '<div class="dashboard-status-button yellow">'.__("Pending For Approval").'</div>';
-                                if($project_status == "under_development")
-                                    echo '<div class="dashboard-status-button blue">'.__("Under Development").'</div>';
+                                if($project_status == "under_development") {
+                                    if ($usertype == "employer" && count($milestones) && (array_values($milestones))[0]['request_id'] != 0) {
+                                        echo '<div class="dashboard-status-button blue" data-tippy title="You have 3 days accept or deny " data-tippy-placement = "top">'.__("Under Development").'</div>';
+                                    }
+                                    else {
+                                        echo '<div class="dashboard-status-button blue">'.__("Under Development").'</div>';
+                                    }
+                                }
                                 if($project_status == "dispute")
                                     echo '<div class="dashboard-status-button yellow">'.__("Dispute").'</div>';
                                 if($project_status == "deliver")
@@ -145,6 +151,14 @@ overall_header(__("Milestones"));
                                                     else if ($milestone['status'] == 'split_employer' || $milestone['status'] == 'split_freelancer') {
                                                         echo '<span class="dashboard-status-button blue" data-tippy title="You have 3 days to accept or deny split request otherwise order will be completed with a split" data-tippy-placement = "top">'.__("Split request").' '.$milestone['split_percent'].'%</span>';
                                                     }
+                                                    else if ($milestone['status'] == 'request') {
+                                                        if ($usertype == "employer") {
+                                                            echo '<div class="dashboard-status-button blue" data-tippy title="You have 3 days accept or deny " data-tippy-placement = "top">'.__("Under Development").'</div>';
+                                                        }
+                                                        else {
+                                                            echo '<span class="dashboard-status-button blue">'.__("Under Development").'</span>';
+                                                        }
+                                                    }
                                                     else {
                                                         echo '<span class="dashboard-status-button yellow">'.__("Request for release").'</span>';
                                                     }
@@ -197,6 +211,7 @@ overall_header(__("Milestones"));
                                                     }else{
                                                         if($milestone['request_id'] != "1"){
                                                             echo '<a href="#" data-ajax-action="request_release_milestone" data-alert-message="'.__("Are you sure you want to accept.").'" class="button dark ripple-effect item-ajax-button"><i class="icon-feather-check"></i> '.__("Request for release").'</a>';
+                                                            echo '<a href="#small-dialog-3" class="popup-with-zoom-anim button blue ripple-effect request_split_milestone_button">'.__("Split").'</a>';
                                                         }
                                                         else if (!in_array($milestone['status'], ['reject_employer', 'reject_freelancer','split_employer', 'split_freelancer', 'dispute'])) {
                                                             echo '<a href="#" data-ajax-action="request_dispute_milestone" data-alert-message="'.__("Are you sure you want open dispute.").'" class="button yellow ripple-effect item-ajax-button">'.__("Dispute").'</a>';

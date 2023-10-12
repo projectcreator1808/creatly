@@ -136,20 +136,8 @@ class MilestoneMainManager extends MilestoneManager
                     $type = 'milestone_created';
                     $message = $milestone_amount." ".$config['currency_code'];
                     add_firebase_notification($SenderName,$SenderId,$OwnerName,$OwnerId,$productId,$productTitle,$type,$message);
-    
-                    $ip = encode_ip($_SERVER, $_ENV);
-                    $trans_insert = ORM::for_table($config['db']['pre'].'transaction')->create();
-                    $trans_insert->product_name = $productTitle;
-                    $trans_insert->product_id = $project_id;
-                    $trans_insert->user_id = $SenderId;
-                    $trans_insert->status = 'success';
-                    $trans_insert->amount = $milestone_amount;
-                    $trans_insert->transaction_gatway = 'Wallet';
-                    $trans_insert->transaction_ip = $ip;
-                    $trans_insert->transaction_time = time();
-                    $trans_insert->transaction_description = 'milestone_created';
-                    $trans_insert->transaction_method = 'milestone_created';
-                    $trans_insert->save();
+
+                    $this->saveTransaction($productTitle, $project_id, $SenderId, $milestone_amount, "Milestone Created", 'milestone_created');
     
                     /*EMAIL-13: Freelancer : Milestone Created*/
                     $html = $config['email_sub_milestone_created'];
@@ -312,19 +300,8 @@ class MilestoneMainManager extends MilestoneManager
                     ->where('id' , $project_id)
                     ->find_one();
                 $project_title = $project['product_name'];
-                $ip = encode_ip($_SERVER, $_ENV);
-                $trans_insert = ORM::for_table($config['db']['pre'].'transaction')->create();
-                $trans_insert->product_name = $project_title;
-                $trans_insert->product_id = $project_id;
-                $trans_insert->user_id = $employer_id;
-                $trans_insert->status = 'success';
-                $trans_insert->amount = $amount;
-                $trans_insert->transaction_gatway = 'Wallet';
-                $trans_insert->transaction_ip = $ip;
-                $trans_insert->transaction_time = time();
-                $trans_insert->transaction_description = "Milestone Released";
-                $trans_insert->transaction_method = 'milestone_released';
-                $trans_insert->save();
+
+                $this->saveTransaction($project_title, $project_id, $freelancer_id, $amount, "Milestone Released", 'milestone_released');
     
                 $SenderName = ucfirst($employer_name);
                 $SenderId = $_SESSION['user']['id'];

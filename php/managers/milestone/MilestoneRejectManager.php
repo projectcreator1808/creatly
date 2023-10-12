@@ -11,11 +11,19 @@ class MilestoneRejectManager extends MilestoneManager
         $employer_balance = $user_data['balance'];
         $amount = $milestone['amount'];
 
+        $project_id = $milestone['project_id'];
+        $project = ORM::for_table($config['db']['pre'].'project')
+            ->select('product_name')
+            ->where('id' , $project_id)
+            ->find_one();
+
         $deducted = $employer_balance + $amount;
         //Plus Employer Account
         $user_update = ORM::for_table($config['db']['pre'] . 'user')->find_one($employer_id);
         $user_update->set('balance', $deducted);
         $user_update->save();
+
+        $this->saveTransaction($project['product_name'], $project_id, $employer_id, $amount, "Milestone Rejected", 'milestone_reject');
     }
 
     function reject(){
@@ -209,7 +217,7 @@ class MilestoneRejectManager extends MilestoneManager
     
             if (!empty($milestone)) {
     
-                $milestone->set('status', 'funded');
+                $milestone->set('status', 'request');
                 $milestone->save();
     
                 $freelancer_id = $milestone['freelancer_id'];
@@ -322,7 +330,7 @@ class MilestoneRejectManager extends MilestoneManager
     
             if (!empty($milestone)) {
     
-                $milestone->set('status', 'funded');
+                $milestone->set('status', 'request');
                 $milestone->save();
     
                 $freelancer_id = $milestone['freelancer_id'];

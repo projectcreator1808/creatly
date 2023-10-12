@@ -44,7 +44,14 @@ if(checkloggedin()) {
         }
         else if($row['transaction_method'] == 'milestone_created' || $row['transaction_method'] == 'milestone_released'){
             $premium = '<span class="dashboard-status-button orange">'.__("Milestone").'</span>';
-        }else if($row['transaction_method'] == 'banner_advertise'){
+        }
+        else if($row['transaction_method'] == 'milestone_reject'){
+            $premium = '<span class="dashboard-status-button orange">'.__("Milestone rejected").'</span>';
+        }
+        else if($row['transaction_method'] == 'milestone_splited'){
+            $premium = '<span class="dashboard-status-button orange">'.__("Milestone splited").'</span>';
+        }
+        else if($row['transaction_method'] == 'banner_advertise'){
             $premium = '<span class="dashboard-status-button dark">'.__("Banner advertise").'</span>';
         }
         else{
