@@ -125,7 +125,11 @@ if(isset($_SESSION['admin']['id'])){
                             <ul class="nav nav-subnav">
                                 <li><a href="<?php echo ADMINURL; ?>app/gig_orders.php?status=progress">Progress</a></li>
                                 <li><a href="<?php echo ADMINURL; ?>app/gig_orders.php?status=completed">Completed</a></li>
-                                <li><a href="<?php echo ADMINURL; ?>app/gig_orders.php?status=cancelled">Cancelled</a></li>
+                                <li><a href="<?php echo ADMINURL; ?>app/gig_orders.php?status=delivered">Delivered</a></li>
+                                <li><a href="<?php echo ADMINURL; ?>app/gig_orders.php?status=revision">Revision</a></li>
+                                <li><a href="<?php echo ADMINURL; ?>app/gig_orders.php?status=overdue">Overdue</a></li>
+                                <li><a href="<?php echo ADMINURL; ?>app/gig_orders.php?status=request_cancel">Request cancel</a></li>
+                                <li><a href="<?php echo ADMINURL; ?>app/gig_orders.php?status=request_plus_time">Request plus time</a></li>
                                 <li><a href="<?php echo ADMINURL; ?>app/gig_orders.php">All Orders List</a></li>
                             </ul>
                         </li>

@@ -91,15 +91,35 @@ foreach ($queryRecords as $row) {
     
     $status = '';
     if ($ad_status == "progress"){
-        $status = '<span class="label label-success">Progress</span>';
+        $status = '<span class="label label-info">Progress</span>';
     }
     elseif($ad_status == "cancelled")
     {
-        $status = '<span class="label label-warning">Cancelled</span>';
+        $status = '<span class="label label-danger">Cancelled</span>';
     }
     elseif($ad_status == "completed")
     {
-        $status = '<span class="label label-info">Completed</span>';
+        $status = '<span class="label label-success">Completed</span>';
+    }
+    elseif($ad_status == "delivered")
+    {
+        $status = '<span class="label label-info">Delivered</span>';
+    }
+    elseif($ad_status == "revision")
+    {
+        $status = '<span class="label label-warning">Revision</span>';
+    }
+    elseif($ad_status == "overdue")
+    {
+        $status = '<span class="label label-warning">Overdue</span>';
+    }
+    elseif($ad_status == "request_cancel")
+    {
+        $status = '<span class="label label-danger">Request cancel</span>';
+    }
+    elseif($ad_status == "request_plus_time")
+    {
+        $status = '<span class="label label-info">Request plus time</span>';
     }
 
     $row0 = '<td class="text-center">

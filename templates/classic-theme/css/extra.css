@@ -2,3 +2,7 @@
     background-color: #9f15e9;
     box-shadow: 0 3px 8px rgba(64, 182, 96, .15)
 }
+
+.welcome-text span.plus-time-order_id_text {
+    display: inline;
+}

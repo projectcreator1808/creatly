@@ -633,7 +633,7 @@ jQuery(function($) {
     $("#cancel-order-form").on('submit', function(e) {
         e.preventDefault();
         var form_data = {
-            action: 'cancel_order',
+            action: $(".order_cancel_action").val(),
             id: $(".order_id").val(),
             reason: $(".cancel_reason").val(),
         };
@@ -652,6 +652,33 @@ jQuery(function($) {
                     $("#cancel-order-status").removeClass('success').addClass('error').html('<p>' + response.message + '</p>').slideDown();
                 }
                 $('#cancel-order-button').removeClass('button-progress').prop('disabled', false);
+            }
+        });
+        return false;
+    });
+
+    $("#plus-time-order-form").on('submit', function(e) {
+        e.preventDefault();
+        var form_data = {
+            action: 'request_plus_time_order',
+            id: $(".plus-time-order_id").val(),
+            plus_time_days: $(".plus-time-order_count_days").val(),
+        };
+
+        $('#plus-time-order-button').addClass('button-progress').prop('disabled', true);
+        $.ajax({
+            type: "POST",
+            url: ajaxurl,
+            data: form_data,
+            dataType: 'json',
+            success: function(response) {
+                if (response.success) {
+                    $("#plus-time-order-status").addClass('success').removeClass('error').html('<p>' + response.message + '</p>').slideDown();
+                    location.reload();
+                } else {
+                    $("#plus-time-order-status").removeClass('success').addClass('error').html('<p>' + response.message + '</p>').slideDown();
+                }
+                $('#plus-time-order-button').removeClass('button-progress').prop('disabled', false);
             }
         });
         return false;

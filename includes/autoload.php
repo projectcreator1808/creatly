@@ -1,4 +1,9 @@
-<?php
+<?php 
+
+if (!defined('ISCONSOLE')) {
+    define("ISCONSOLE", PHP_SAPI == 'cli');
+}
+
 require_once('config.php');
 require_once('lib/idiorm.php');
 require_once('db.php');

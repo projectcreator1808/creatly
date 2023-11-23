@@ -6,7 +6,7 @@ $date = new DateTime("now", new DateTimeZone($timezone));
 $timenow = date('Y-m-d H:i:s');
 
 if(isset($config['quickad_debug']) && $config['quickad_debug'] == 1){
-    error_reporting(E_ALL);
+    error_reporting(E_ERROR | E_WARNING | E_PARSE);
     ini_set('display_errors', 1);
 
     ini_set('log_errors', TRUE); // Error/Exception file logging engine.
@@ -294,6 +294,10 @@ function check_www_in_url($link){
  * @return string
  */
 function get_site_url($site_url){
+    if (defined('ISCONSOLE') && ISCONSOLE) {
+        return '';
+    }
+
     //If it's not empty
     if (!empty($site_url)) {
         // Check if SSL enabled
@@ -2847,6 +2851,18 @@ function payment_success_save_detail($access_token){
         $item_pro_id = $_SESSION['quickad'][$access_token]['product_id'];
         $trans_desc = $_SESSION['quickad'][$access_token]['trans_desc'];
         $plan_id = $_SESSION['quickad'][$access_token]['plan_id'];
+        
+        $post = ORM::for_table($config['db']['pre'].'post')
+            ->select('user_id')
+            ->find_one($item_pro_id);
+
+        if($plan_id == "basic"){
+            $plan_json = json_decode(get_post_option($item_pro_id, 'basic_pricing_plan'),true);
+        }elseif($plan_id == "standard"){
+            $plan_json = json_decode(get_post_option($item_pro_id, 'standard_pricing_plan'),true);
+        }elseif($plan_id == "premium"){
+            $plan_json = json_decode(get_post_option($item_pro_id, 'premium_pricing_plan'),true);
+        }
 
         $code = generate_purchase_code();
         $order_insert = ORM::for_table($config['db']['pre'].'orders')->create();
@@ -2855,12 +2871,12 @@ function payment_success_save_detail($access_token){
         $order_insert->plan_id = $plan_id;
         $order_insert->amount = $amount;
         $order_insert->purchase_code = $code;
+        $order_insert->status = 'progress';
+        $order_insert->execute_expire_at = date('Y-m-d H:i:s', time() + 86400 * $plan_json['delivery_time']);
+        $order_insert->max_revisions = $plan_json['revisions'];
+        $order_insert->count_revisions = 0;
         $order_insert->save();
         $order_id = $order_insert->id();
-
-        $post = ORM::for_table($config['db']['pre'].'post')
-            ->select('user_id')
-            ->find_one($item_pro_id);
 
         $SenderName = '';
         $SenderId = $user_id;

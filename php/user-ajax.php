@@ -1,7 +1,5 @@
 <?php
 
-ini_set('display_errors', 1); ini_set('display_startup_errors', 1); error_reporting(E_ALL); 
-
 define("ROOTPATH", dirname(__DIR__));
 define("APPPATH", ROOTPATH."/php/");
 
@@ -10,19 +8,34 @@ require_once ROOTPATH . '/includes/lang/lang_'.$config['lang'].'.php';
 
 sec_session_start();
 
+require_once APPPATH . 'managers/Manager.php';
+
 require_once APPPATH . 'managers/milestone/MilestoneManager.php';
 require_once APPPATH . 'managers/milestone/MilestoneMainManager.php';
 require_once APPPATH . 'managers/milestone/MilestoneDisputeManager.php';
 require_once APPPATH . 'managers/milestone/MilestoneRejectManager.php';
 require_once APPPATH . 'managers/milestone/MilestoneSplitManager.php';
 
+require_once APPPATH . 'managers/orders/OrderManager.php';
+require_once APPPATH . 'managers/orders/OrderDeliverManager.php';
+require_once APPPATH . 'managers/orders/OrderRevisionManager.php';
+require_once APPPATH . 'managers/orders/OrderCancelManager.php';
+require_once APPPATH . 'managers/orders/OrderPlusTimeManager.php';
+
 $milestoneMainManager = new MilestoneMainManager();
 $milestoneDisputeManager = new MilestoneDisputeManager();
 $milestoneRejectManager = new MilestoneRejectManager();
 $milestoneSplitManager = new MilestoneSplitManager();
 
+$orderDeliverManager = new OrderDeliverManager();
+$orderRevisionManager = new OrderRevisionManager();
+$orderCancelManager = new OrderCancelManager();
+$orderPlusTimeManager = new OrderPlusTimeManager();
+
 if (isset($_GET['action'])){
     if ($_GET['action'] == "write_rating") { write_rating(); }
+
+    // milestone 
     if ($_GET['action'] == "create_milestone") { $milestoneMainManager->create(); }
     if ($_GET['action'] == "release_milestone") { $milestoneMainManager->release(); }
     if ($_GET['action'] == "cancel_milestone") { $milestoneMainManager->cancel(); }
@@ -38,13 +51,28 @@ if (isset($_GET['action'])){
     if ($_GET['action'] == "request_deny_reject_milestone") { $milestoneRejectManager->request_deny_reject(); }
     if ($_GET['action'] == "accept_reject_milestone") { $milestoneRejectManager->accept_reject(); }
     if ($_GET['action'] == "deny_reject_milestone") { $milestoneRejectManager->deny_reject(); }
-    
+
     if ($_GET['action'] == "split_milestone") { $milestoneSplitManager->split(); }
     if ($_GET['action'] == "request_split_milestone") { $milestoneSplitManager->request_split(); }
     if ($_GET['action'] == "accept_split_milestone") { $milestoneSplitManager->accept_split(); }
     if ($_GET['action'] == "deny_split_milestone") { $milestoneSplitManager->deny_split(); }
     if ($_GET['action'] == "request_accept_split_milestone") { $milestoneSplitManager->request_accept_split(); }
     if ($_GET['action'] == "request_deny_split_milestone") { $milestoneSplitManager->request_deny_split(); }
+
+    // ----
+
+    // services / orders
+
+    if ($_GET['action'] == "deliver_order") { $orderDeliverManager->deliver(); }
+    if ($_GET['action'] == "revision_order") { $orderRevisionManager->revision(); }
+
+    if ($_GET['action'] == "request_cancel_order_accept") { $orderCancelManager->request_cancel_accept(); }
+    if ($_GET['action'] == "request_cancel_order_deny") { $orderCancelManager->request_cancel_deny(); }
+    
+    if ($_GET['action'] == "request_plus_time_order_accept") { $orderPlusTimeManager->request_plus_accept(); }
+    if ($_GET['action'] == "request_plus_time_order_deny") { $orderPlusTimeManager->request_plus_deny(); }
+
+    // ----
     
     if ($_GET['action'] == "closeMyProject") { closeMyProject(); }
     if ($_GET['action'] == "email_contact_seller") { email_contact_seller(); }
@@ -85,6 +113,9 @@ if(isset($_POST['action'])){
     if ($_POST['action'] == "ajaxlogin") {ajaxlogin();}
     if ($_POST['action'] == "email_verify") {email_verify();}
     if ($_POST['action'] == "quickad_ajax_home_search") {quickad_ajax_home_search();}
+
+    if ($_POST['action'] == "request_cancel_order") { $orderCancelManager->request_cancel(); }
+    if ($_POST['action'] == "request_plus_time_order") { $orderPlusTimeManager->request_plus_time(); }
 }
 
 function save_gig_overview()
@@ -955,7 +986,7 @@ function mark_completed_service(){
             ->where(array(
                 'o.id' => $order_id,
                 'o.user_id' => $_SESSION['user']['id'],
-                'o.status' => 'progress'
+                'o.status' => 'delivered'
             ))
             ->join($config['db']['pre'] . 'post', array('o.post_id', '=', 'p.id'), 'p')
             ->count();
@@ -967,7 +998,7 @@ function mark_completed_service(){
                 ->where(array(
                     'o.id' => $order_id,
                     'o.user_id' => $_SESSION['user']['id'],
-                    'o.status' => 'progress'
+                    'o.status' => 'delivered'
                 ))
                 ->join($config['db']['pre'] . 'post', array('o.post_id', '=', 'p.id'), 'p')
                 ->find_one();

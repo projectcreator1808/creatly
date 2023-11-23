@@ -34,12 +34,25 @@ overall_header(__("Orders"));
                     <form method="get" action="" class="d-flex" id="form_search">
                         <div class="margin-right-10">
                             <select class="with-border padding-top-0 padding-bottom-0 margin-bottom-0" name="status" id="project_status">
-                                <option value=""><?php _e("Status") ?></option>
-                                <option value="all"><?php _e("All") ?></option>
-                                <option value="progress"><?php _e("Progress") ?></option>
-                                <option value="completed"><?php _e("Completed") ?></option>
-                                <option value="cancelled"><?php _e("Cancelled") ?></option>
-                                <option value="incomplete"><?php _e("Incomplete") ?></option>
+                                <?php 
+                                    $statuses = [
+                                        '' => __("Status"),
+                                        'all' => __("All"),
+                                        'progress' => __("Progress"),
+                                        'delivered' => __("Delivered"),
+                                        'revision' => __("Revision"),
+                                        'overdue' => __("Overdue"),
+                                        'request_cancel' => __("Request Cancel"),
+                                        'request_plus_time' => __("Request plus time"),
+                                        'cancelled' => __("Cancelled"),
+                                        'incomplete' => __("Incomplete"),
+                                    ];
+                                    foreach ($statuses as $val => $op) {
+                                ?>
+                                <option value = "<?=$val?>" <?php echo $val == $_GET['status'] ? 'selected' : '' ?> >
+                                    <?=$op ?>
+                                </option>
+                                <?php } ?>
                             </select>
                         </div>
                     </form>
@@ -65,6 +78,16 @@ overall_header(__("Orders"));
                                                 <?php
                                                 if($item['status'] == "progress")
                                                     echo '<div class="dashboard-status-button green">'.__("Progress").'</div>';
+                                                if($item['status'] == "delivered")
+                                                    echo '<div class="dashboard-status-button purple">'.__("Delivered").'</div>';
+                                                if($item['status'] == "revision")
+                                                    echo '<div class="dashboard-status-button yellow">'.__("Revision").'</div>';
+                                                if($item['status'] == "overdue")
+                                                    echo '<div class="dashboard-status-button yellow">'.__("Overdue").'</div>';
+                                                if($item['status'] == "request_cancel")
+                                                    echo '<div class="dashboard-status-button red">'.__("Cancel request").'</div>';
+                                                if($item['status'] == "request_plus_time")
+                                                    echo '<div class="dashboard-status-button purple">'.__("Plus time request").' ('.$item['count_plus_days_requested'].' days)</div>';
                                                 if($item['status'] == "completed")
                                                     echo '<div class="dashboard-status-button green">'.__("Completed").'</div>';
                                                 if($item['status'] == "cancelled")
@@ -94,6 +117,7 @@ overall_header(__("Orders"));
                                 <ul class="dashboard-task-info margin-bottom-5">
                                     <li><strong><?php _esc($item['amount'])?></strong><span><?php _e("Amount") ?></span></li>
                                     <li><strong><?php _esc($item['plan_name'])?></strong><span><?php _e("Plan") ?></span></li>
+                                    <li><strong><?php echo $item['count_revisions'] . ' / ' . $item['max_revisions'] ?></strong><span><?php _e("Revisions") ?></span></li>
                                 </ul>
                                 <!-- Buttons -->
 
@@ -106,15 +130,41 @@ overall_header(__("Orders"));
                                             <i class="icon-material-outline-thumb-up"></i> '.__("Leave a Review").'</a>';
                                     }
 
-                                    if($usertype == "employer" && $item['buyer_id'] == $user_id && $item['status'] == 'progress'){
+                                    if ($usertype == "employer" && $item['buyer_id'] == $user_id){
                                         ?>
-                                        <a href="#" data-ajax-action="mark_completed_service" data-alert-message="Are you sure you want to accept service completed." class="button green ripple-effect item-ajax-button"><i class="icon-material-outline-check"></i> <?php _e("Mark as completed") ?></a>
+                                        <?php if ($item['status'] == 'request_plus_time') { ?>
+                                            <a href="#" data-ajax-action="request_plus_time_order_accept" data-alert-message="Accept plus time order?" class="button green item-ajax-button"><?php _e("Accept"); ?></a>
+                                            <a href="#" data-ajax-action="request_plus_time_order_deny" data-alert-message="Deny plus time order?" class="button red item-ajax-button"><?php _e("Deny"); ?></a>
+                                        <?php } else { ?>
+                                            <?php if (in_array($item['status'], ['delivered'])) { ?>
+                                                <a href="#" data-ajax-action="mark_completed_service" data-alert-message="Are you sure you want to accept service completed." class="button green ripple-effect item-ajax-button"><i class="icon-material-outline-check"></i> <?php _e("Mark as completed"); ?></a>
+                                            <?php } ?>
+                                            <?php if ($item['status'] == 'delivered') { ?>
+                                                <?php if ($item['count_revisions'] < $item['max_revisions']) { ?>
+                                                <a href="#" data-ajax-action="revision_order" data-alert-message="Are you sure you want to revision service?" class="button yellow item-ajax-button"><?php _e("Revision"); ?></a>
+                                                <?php } ?>
+                                            <?php } ?>
+                                            <?php if (in_array($item['status'], ['progress', 'delivered', 'revision', 'overdue'])) { ?>
+                                                <a href="#small-dialog-1" class="cancel_order button gray ripple-effect" data-action = "request_cancel_order"><i class="icon-close"></i> <?php _e("Cancel"); ?></a>
+                                            <?php } ?>
+                                        <?php } ?>
                                     <?php } ?>
-                                    <?php
-                                    if($usertype == "user" && $item['status'] == 'progress'){
-                                        echo '<a href="#small-dialog-1" class="cancel_order button gray ripple-effect"><i class="icon-close"></i> '.__("Cancel").'</a>';
-                                     } ?>
-
+                                    <?php if ($usertype == "user") { ?>
+                                        <?php if ($item['status'] == 'request_cancel') { ?>
+                                            <a href="#" data-ajax-action="request_cancel_order_accept" data-alert-message="Accept cancel order?" class="button green item-ajax-button"><?php _e("Accept"); ?></a>
+                                            <a href="#" data-ajax-action="request_cancel_order_deny" data-alert-message="Deny cancel order?" class="button red item-ajax-button"><?php _e("Deny"); ?></a>
+                                        <?php } else { ?>
+                                            <?php if (in_array($item['status'], ['progress', 'delivered', 'revision', 'overdue'])) { ?>
+                                                <a href="#small-dialog-1" class="cancel_order button gray ripple-effect" data-action = "cancel_order"><i class="icon-close"></i> <?php _e("Cancel"); ?></a>
+                                            <?php } ?>
+                                            <?php if (in_array($item['status'], ['progress', 'revision'])) { ?>
+                                                <a href="#" data-ajax-action="deliver_order" data-alert-message="Are you sure you want to deliver service?" class="button purple item-ajax-button"><?php _e("Deliver"); ?></a>
+                                            <?php } ?>
+                                            <?php if ($item['status'] == 'overdue') { ?>
+                                                <a href="#small-dialog-2" class="plus-time-order button purple ripple-effect"><?php _e("Plus Time"); ?></a>
+                                            <?php } ?>
+                                        <?php } ?>
+                                    <?php } ?>
                                 </div>
                             </li>
                             <?php } ?>
@@ -188,6 +238,7 @@ overall_header(__("Orders"));
                             </div>
 
                             <input name="order_id" class="order_id" value="" type="hidden"/>
+                            <input name="order_cancel_action" class="order_cancel_action" value="order_cancel" type="hidden"/>
 
                             <!-- Button -->
                             <button id="cancel-order-button" class="margin-top-15 button full-width button-sliding-icon ripple-effect" type="submit"> <?php _e("Submit") ?> <i class="icon-material-outline-arrow-right-alt"></i></button>
@@ -196,6 +247,46 @@ overall_header(__("Orders"));
 
                 </div>
             </div>
+        </div>
+        <!-- Cancel Service Popup / End -->
+
+        <!-- Cancel Service Popup
+                    ================================================== -->
+        <div id="small-dialog-2" class="zoom-anim-dialog mfp-hide dialog-with-tabs popup-dialog">
+
+        <!--Tabs -->
+        <div class="sign-in-form">
+
+            <ul class="popup-tabs-nav">
+                <li><a href="#tab2_1"><?php _e("Plus time order") ?></a></li>
+            </ul>
+
+            <div class="popup-tabs-container">
+
+                <!-- Tab -->
+                <div class="popup-tab-content" id="tab">
+                    <form id="plus-time-order-form" method="post" action="#">
+
+                        <div id="plus-time-order-status" class="notification error" style="display:none"></div>
+                        <!-- Welcome Text -->
+                        <div class="welcome-text">
+                            <h3><?php _e("Plus time order") ?> #<span class="plus-time-order_id_text"></span></h3>
+                        </div>
+
+                        <div class="submit-field">
+                            <h5><?php _e("Count days") ?> *</h5>
+                            <input class="with-border plus-time-order_count_days" name="plus-time-order_count_days" required="" type = "number" min = "1" max = "30"/>
+                        </div>
+
+                        <input name="plus-time-order_id" class="plus-time-order_id" value="" type="hidden"/>
+
+                        <!-- Button -->
+                        <button id="plus-time-order-button" class="margin-top-15 button full-width button-sliding-icon ripple-effect" type="submit"> <?php _e("Submit") ?> <i class="icon-material-outline-arrow-right-alt"></i></button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
         </div>
         <!-- Cancel Service Popup / End -->
 
@@ -287,11 +378,37 @@ overall_header(__("Orders"));
 
                 var $item = $(this).closest('.ajax-item-listing');
                 var order_id = $item.data('item-id');
+                var action = $(this).data('action');
                 $('.order_id').val(order_id);
+                $('.order_cancel_action').val(action);
                 $('.order_id_text').html(order_id);
                 $.magnificPopup.open({
                     items: {
                         src: '#small-dialog-1',
+                        type: 'inline',
+                        fixedContentPos: false,
+                        fixedBgPos: true,
+                        overflowY: 'auto',
+                        closeBtnInside: true,
+                        preloader: false,
+                        midClick: true,
+                        removalDelay: 300,
+                        mainClass: 'my-mfp-zoom-in'
+                    }
+                });
+            });
+
+            $(document).on('click', ".plus-time-order" ,function(e){
+                e.stopPropagation();
+                e.preventDefault();
+
+                var $item = $(this).closest('.ajax-item-listing');
+                var order_id = $item.data('item-id');
+                $('.plus-time-order_id').val(order_id);
+                $('.plus-time-order_id_text').html(order_id);
+                $.magnificPopup.open({
+                    items: {
+                        src: '#small-dialog-2',
                         type: 'inline',
                         fixedContentPos: false,
                         fixedBgPos: true,

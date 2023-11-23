@@ -230,6 +230,14 @@ if ($num_rows > 0) {
                 $my_bid->set('message', validate_input($_POST['message']));
                 $my_bid->save();
             }else{
+                // $bids_member_count = ORM::for_table($config['db']['pre'] . 'bids')
+                //     ->where(array(
+                //         'user_id' => $_SESSION['user']['id']
+                //     ))
+                //     ->where_gt('created_at', (new DateTime('first day of this month'))->format('Y-m-d 00:00:00'))
+                //     ->where_lt('created_at', (new DateTime('last day of this month'))->format('Y-m-d 23:59:59'))
+                //     ->count();
+                    
                 $now = date("Y-m-d H:i:s");
                 $apply_create = ORM::for_table($config['db']['pre'] . 'bids')->create();
                 $apply_create->user_id = $_SESSION['user']['id'];

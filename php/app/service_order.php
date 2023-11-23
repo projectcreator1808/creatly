@@ -48,8 +48,12 @@ if(checkloggedin()) {
             $items[$info['id']]['post_id'] = $info['post_id'];
             $items[$info['id']]['title'] = $info['post_title'];
             $items[$info['id']]['plan_id'] = $info['plan_id'];
+            $items[$info['id']]['count_revisions'] = $info['count_revisions'];
+            $items[$info['id']]['max_revisions'] = $info['max_revisions'];
+            $items[$info['id']]['count_plus_days_requested'] = $info['count_plus_days_requested'];
             $items[$info['id']]['cancel_reason'] = $info['cancel_reason'];
             $items[$info['id']]['created_at'] = date('d-M-Y', strtotime($info['created_at']));
+            $items[$info['id']]['end_date'] = date('d-M-Y H:i', strtotime($info['execute_expire_at']));
 
             if($info['status'] == "completed"){
                 if(rating_exist($info['id'],'gig')){
@@ -106,7 +110,7 @@ if(checkloggedin()) {
             }
             $items[$info['id']]['plan_name'] = $plan_json['name'];
             $delivery_time = $plan_json['delivery_time'];
-            $items[$info['id']]['end_date'] = date('d-M-Y', strtotime($info['created_at']. ' + '.$delivery_time.' days'));
+            // $items[$info['id']]['end_date'] = date('d-M-Y', strtotime($info['created_at']. ' + '.$delivery_time.' days'));
 
             $pro_url = create_slug($info['post_title']);
             $items[$info['id']]['link'] = $link['SERVICE'].'/' . $info['post_id'] . '/'.$pro_url;

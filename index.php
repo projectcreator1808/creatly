@@ -45,7 +45,7 @@ foreach (glob(APPPATH."*") as $dir) {
     }
 
 }
-// API Routes
+// API
 require_once ROOTPATH . '/includes/autoload.php';
 define("TEMPLATE_PATH", ROOTPATH.'/templates/'.$config['tpl_name']);
 define("TEMPLATE_URL", SITEURL.'/templates/'.$config['tpl_name']);

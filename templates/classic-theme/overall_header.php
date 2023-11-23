@@ -411,6 +411,60 @@
                                                                 <span class="notification-icon"><i class="icon-material-outline-assignment"></i></span>
                                                                 <span class="notification-text"><strong><?php _esc($sender) ?></strong> <?php _e("New") ?> <?php _esc($msg) ?> <?php _e("for") ?> <span class="color"><?php _esc($title) ?></span></span>
                                                             </a>
+                                                        <?php }
+                                                        elseif($note['nottype'] == "order_delivered"){ ?>
+                                                            <a href="<?php url("SERVICE") ?>/<?php _esc($id) ?>">
+                                                                <span class="notification-icon"><i class="icon-material-outline-assignment"></i></span>
+                                                                <span class="notification-text"><strong><?php _esc($sender) ?></strong> <?php _e("deliver result") ?> <?php _esc($msg) ?> <?php _e("for") ?> <span class="color"><?php _esc($title) ?></span></span>
+                                                            </a> 
+                                                        <?php }
+                                                        elseif($note['nottype'] == "order_request_cancel"){ ?>
+                                                            <a href="<?php url("SERVICE") ?>/<?php _esc($id) ?>">
+                                                                <span class="notification-icon"><i class="icon-material-outline-assignment"></i></span>
+                                                                <span class="notification-text"><strong><?php _esc($sender) ?></strong> <?php _e("cancel request") ?> <?php _e("for") ?> <span class="color"><?php _esc($title) ?></span></span>
+                                                            </a>
+                                                        <?php }
+                                                        elseif($note['nottype'] == "order_request_cancel_accept"){ ?>
+                                                            <a href="<?php url("SERVICE") ?>/<?php _esc($id) ?>">
+                                                                <span class="notification-icon"><i class="icon-material-outline-assignment"></i></span>
+                                                                <span class="notification-text"><strong><?php _esc($sender) ?></strong> <?php _e("cancel request accept") ?> <?php _e("for") ?> <span class="color"><?php _esc($title) ?></span></span>
+                                                            </a>  
+                                                        <?php }
+                                                        elseif($note['nottype'] == "order_request_cancel_deny"){ ?>
+                                                            <a href="<?php url("SERVICE") ?>/<?php _esc($id) ?>">
+                                                                <span class="notification-icon"><i class="icon-material-outline-assignment"></i></span>
+                                                                <span class="notification-text"><strong><?php _esc($sender) ?></strong> <?php _e("cancel request deny") ?> <?php _e("for") ?> <span class="color"><?php _esc($title) ?></span></span>
+                                                            </a> 
+                                                        <?php }
+                                                        elseif($note['nottype'] == "order_request_plus_time"){ ?>
+                                                            <a href="<?php url("SERVICE") ?>/<?php _esc($id) ?>">
+                                                                <span class="notification-icon"><i class="icon-material-outline-assignment"></i></span>
+                                                                <span class="notification-text"><strong><?php _esc($sender) ?></strong> <?php _e("plus time request") ?> <?php _e("for") ?> <span class="color"><?php _esc($title) ?></span></span>
+                                                            </a>  
+                                                        <?php }
+                                                        elseif($note['nottype'] == "order_request_plus_time_accept"){ ?>
+                                                            <a href="<?php url("SERVICE") ?>/<?php _esc($id) ?>">
+                                                                <span class="notification-icon"><i class="icon-material-outline-assignment"></i></span>
+                                                                <span class="notification-text"><strong><?php _esc($sender) ?></strong> <?php _e("plus time request accept") ?> <?php _e("for") ?> <span class="color"><?php _esc($title) ?></span></span>
+                                                            </a> 
+                                                        <?php }
+                                                        elseif($note['nottype'] == "order_request_plus_time_deny"){ ?>
+                                                            <a href="<?php url("SERVICE") ?>/<?php _esc($id) ?>">
+                                                                <span class="notification-icon"><i class="icon-material-outline-assignment"></i></span>
+                                                                <span class="notification-text"><strong><?php _esc($sender) ?></strong> <?php _e("plus time request deny") ?> <?php _e("for") ?> <span class="color"><?php _esc($title) ?></span></span>
+                                                            </a>  
+                                                        <?php }
+                                                        elseif($note['nottype'] == "order_revision"){ ?>
+                                                            <a href="<?php url("SERVICE") ?>/<?php _esc($id) ?>">
+                                                                <span class="notification-icon"><i class="icon-material-outline-assignment"></i></span>
+                                                                <span class="notification-text"><strong><?php _esc($sender) ?></strong> <?php _e("revision") ?> <?php _e("for") ?> <?php _esc($msg) ?> <span class="color"><?php _esc($title) ?></span></span>
+                                                            </a> 
+                                                        <?php }
+                                                        elseif($note['nottype'] == "order_overdue"){ ?>
+                                                            <a href="<?php url("SERVICE") ?>/<?php _esc($id) ?>">
+                                                                <span class="notification-icon"><i class="icon-material-outline-assignment"></i></span>
+                                                                <span class="notification-text"><?php _e("Overdue") ?> <?php _esc($msg) ?> <?php _e("for") ?> <span class="color"><?php _esc($title) ?></span></span>
+                                                            </a>  
                                                         <?php } else{ ?>
                                                             <a href="#">
                                                                 <span class="notification-icon"><i class="icon-material-outline-assignment"></i></span>
