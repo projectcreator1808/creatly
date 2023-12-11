@@ -32,6 +32,7 @@ class OrderRevisionManager extends OrderManager
     
             $order->set('status', 'revision');
             $order->set('count_revisions', $order['count_revisions'] + 1);
+            $order->set('last_status_updated_at', date('Y-m-d H:i:s'));
             $order->save();
 
             $this->pushNotify($employer_id, $freelancer_id, $post['id'], $post['title'], 'order_revision', '');

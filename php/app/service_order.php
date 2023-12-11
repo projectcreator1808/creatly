@@ -56,7 +56,7 @@ if(checkloggedin()) {
             $items[$info['id']]['end_date'] = date('d-M-Y H:i', strtotime($info['execute_expire_at']));
 
             if($info['status'] == "completed"){
-                if(rating_exist($info['id'],'gig')){
+                if(rating_order_exist($info['id'],'gig')){
                     $rate = 0;
                 }else{
                     $rate = 1;

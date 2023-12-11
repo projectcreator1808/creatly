@@ -94,6 +94,7 @@ class MilestoneSplitManager extends MilestoneManager
     
                     $milestone->set('status', 'split_employer');
                     $milestone->set('split_percent', $split_percent);
+                    $milestone->set('last_status_updated_at', date('Y-m-d H:i:s'));
                     $milestone->save();
         
                     $freelancer_id = $milestone['freelancer_id'];
@@ -108,6 +109,7 @@ class MilestoneSplitManager extends MilestoneManager
                                 ))
                                 ->find_one();
                             $update_project->set('status', 'split_request');
+                            $update_project->set('last_status_updated_at', date('Y-m-d H:i:s'));
                             $update_project->save();
         
                     $project_title = $update_project['product_name'];
@@ -158,6 +160,7 @@ class MilestoneSplitManager extends MilestoneManager
     
                     $milestone->set('status', 'split_freelancer');
                     $milestone->set('split_percent', $split_percent);
+                    $milestone->set('last_status_updated_at', date('Y-m-d H:i:s'));
                     $milestone->save();
         
                     $freelancer_id = $milestone['freelancer_id'];
@@ -172,6 +175,7 @@ class MilestoneSplitManager extends MilestoneManager
                                 ))
                                 ->find_one();
                             $update_project->set('status', 'split_request');
+                            $update_project->set('last_status_updated_at', date('Y-m-d H:i:s'));
                             $update_project->save();
         
                     $project_title = $update_project['product_name'];
@@ -319,6 +323,7 @@ class MilestoneSplitManager extends MilestoneManager
             if (!empty($milestone)) {
                     $milestone->set('status', 'funded');
                     $milestone->set('split_percent', null);
+                    $milestone->set('last_status_updated_at', date('Y-m-d H:i:s'));
                     $milestone->save();
         
                     $freelancer_id = $milestone['freelancer_id'];
@@ -333,6 +338,7 @@ class MilestoneSplitManager extends MilestoneManager
                                 ))
                                 ->find_one();
                             $update_project->set('status', 'under_development');
+                            $update_project->set('last_status_updated_at', date('Y-m-d H:i:s'));
                             $update_project->save();
         
                     $project_title = $update_project['product_name'];
@@ -474,6 +480,7 @@ class MilestoneSplitManager extends MilestoneManager
             if (!empty($milestone)) {
                     $milestone->set('status', 'funded');
                     $milestone->set('split_percent', null);
+                    $milestone->set('last_status_updated_at', date('Y-m-d H:i:s'));
                     $milestone->save();
         
                     $freelancer_id = $milestone['freelancer_id'];
@@ -488,6 +495,7 @@ class MilestoneSplitManager extends MilestoneManager
                                 ))
                                 ->find_one();
                             $update_project->set('status', 'under_development');
+                            $update_project->set('last_status_updated_at', date('Y-m-d H:i:s'));
                             $update_project->save();
         
                     $project_title = $update_project['product_name'];

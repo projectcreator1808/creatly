@@ -1862,13 +1862,50 @@ function averageRating($user_id, $user_type)
  * @param int $project_id
  * @return bool
  */
-function rating_exist($project_id,$post_type='default'){
+function rating_exist($project_id,$post_type='default', $order_id = 0){
+    global $config;
+
+    $where = [
+        'project_id' => $project_id,
+        'post_type' =>$post_type,
+        'employer_id' => validate_input($_SESSION['user']['id']),
+    ];
+
+    if ($order_id) {
+        $where['order_id'] = $order_id;
+    }
+
+    if($_SESSION['user']['user_type'] == 'employer'){
+        $num_rows = ORM::for_table($config['db']['pre'] . 'reviews')
+            ->where($where + [
+                'rated_by' => 'employer'
+            ])
+            ->count();
+    }else{
+        $num_rows = ORM::for_table($config['db']['pre'] . 'reviews')
+            ->where($where + [
+                'rated_by'=> 'user'
+            ])
+            ->count();
+    }
+
+
+    return $num_rows == 1;
+}
+
+/**
+ * Check rating exist
+ * @param string $post_type 'default' or 'gig'
+ * @param int $project_id
+ * @return bool
+ */
+function rating_order_exist($order_id,$post_type='default'){
     global $config;
 
     if($_SESSION['user']['user_type'] == 'employer'){
         $num_rows = ORM::for_table($config['db']['pre'] . 'reviews')
             ->where(array(
-                'project_id' => $project_id,
+                'order_id' => $order_id,
                 'post_type' =>$post_type,
                 'employer_id' => validate_input($_SESSION['user']['id']),
                 'rated_by' => 'employer'
@@ -1877,7 +1914,7 @@ function rating_exist($project_id,$post_type='default'){
     }else{
         $num_rows = ORM::for_table($config['db']['pre'] . 'reviews')
             ->where(array(
-                'project_id'=> $project_id,
+                'order_id'=> $order_id,
                 'post_type' => $post_type,
                 'freelancer_id'=> validate_input($_SESSION['user']['id']),
                 'rated_by'=> 'user'
@@ -1886,10 +1923,7 @@ function rating_exist($project_id,$post_type='default'){
     }
 
 
-    if($num_rows == 1)
-        return true;
-    else
-        return false;
+    return $num_rows == 1;
 }
 
 /**

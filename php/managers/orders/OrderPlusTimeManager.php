@@ -33,6 +33,7 @@ class OrderPlusTimeManager extends OrderManager
 
         $order->set('status', 'request_plus_time');
         $order->set('count_plus_days_requested', $plus_time_days);
+        $order->set('last_status_updated_at', date('Y-m-d H:i:s'));
         $order->save();
 
         $this->pushNotify($freelancer_id, $employer_id, $post['id'], $post['title'], 'order_request_plus_time', '');
@@ -70,6 +71,7 @@ class OrderPlusTimeManager extends OrderManager
 
         $order->set('status', 'progress');
         $order->set('execute_expire_at', date('Y-m-d H:i:s', time() + 86400 * $order['count_plus_days_requested']));
+        $order->set('last_status_updated_at', date('Y-m-d H:i:s'));
         $order->save();
 
         $this->pushNotify($employer_id, $freelancer_id, $post['id'], $post['title'], 'order_request_plus_time_accept', '');
@@ -106,6 +108,7 @@ class OrderPlusTimeManager extends OrderManager
         $freelancer_id = $post['user_id'];
 
         $order->set('status', 'overdue');
+        $order->set('last_status_updated_at', date('Y-m-d H:i:s'));
         $order->save();
 
         $this->pushNotify($employer_id, $freelancer_id, $post['id'], $post['title'], 'order_request_plus_time_deny', '');

@@ -13,6 +13,10 @@ class MilestoneManager extends Manager
             $milestone->set($key, $value);
         }
 
+        if (isset($data['status'])) {
+            $milestone->set('last_status_updated_at', date('Y-m-d H:i:s'));
+        }
+
         $milestone->save();
     }
 }

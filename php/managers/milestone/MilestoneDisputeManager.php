@@ -25,6 +25,7 @@ class MilestoneDisputeManager extends MilestoneManager
             if (!empty($milestone)) {
     
                 $milestone->set('status', 'dispute');
+                $milestone->set('last_status_updated_at', date('Y-m-d H:i:s'));
                 $milestone->save();
     
                 $freelancer_id = $milestone['freelancer_id'];
@@ -39,6 +40,7 @@ class MilestoneDisputeManager extends MilestoneManager
                             ))
                             ->find_one();
                         $update_project->set('status', 'dispute');
+                        $update_project->set('last_status_updated_at', date('Y-m-d H:i:s'));
                         $update_project->save();
 
                 $project_title = $update_project['product_name'];
@@ -80,6 +82,7 @@ class MilestoneDisputeManager extends MilestoneManager
             if (!empty($milestone)) {
     
                 $milestone->set('status', 'dispute');
+                $milestone->set('last_status_updated_at', date('Y-m-d H:i:s'));
                 $milestone->save();
     
                 $freelancer_id = $milestone['freelancer_id'];
@@ -94,6 +97,7 @@ class MilestoneDisputeManager extends MilestoneManager
                             ))
                             ->find_one();
                         $update_project->set('status', 'dispute');
+                        $update_project->set('last_status_updated_at', date('Y-m-d H:i:s'));
                         $update_project->save();
     
                 $project_title = $update_project['product_name'];
@@ -134,6 +138,7 @@ class MilestoneDisputeManager extends MilestoneManager
     
             if (!empty($milestone)) {
                 $milestone->set('status', 'deliver');
+                $milestone->set('last_status_updated_at', date('Y-m-d H:i:s'));
                 $milestone->save();
     
                 $freelancer_id = $milestone['freelancer_id'];
@@ -150,6 +155,7 @@ class MilestoneDisputeManager extends MilestoneManager
                             ))
                             ->find_one();
                         $update_project->set('status', 'deliver');
+                        $update_project->set('last_status_updated_at', date('Y-m-d H:i:s'));
                         $update_project->save();
                 
                 $project_title = $update_project['product_name'];

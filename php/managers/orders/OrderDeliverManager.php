@@ -32,6 +32,7 @@ class OrderDeliverManager extends OrderManager
             $freelancer_id = $post['user_id'];
     
             $order->set('status', 'delivered');
+            $order->set('last_status_updated_at', date('Y-m-d H:i:s'));
             $order->save();
 
             $this->pushNotify($freelancer_id, $employer_id, $post['id'], $post['title'], 'order_delivered', '');

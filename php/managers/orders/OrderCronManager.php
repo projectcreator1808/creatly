@@ -18,6 +18,7 @@ class OrderCronManager extends OrderManager
             $freelancer_id = $post['user_id'];
     
             $order->set('status', 'overdue');
+            $order->set('last_status_updated_at', date('Y-m-d H:i:s'));
             $order->save();
 
             $this->pushNotify($employer_id, $freelancer_id, $post['id'], $post['title'], 'order_overdue', '');

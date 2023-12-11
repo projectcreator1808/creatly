@@ -49,6 +49,7 @@ class MilestoneRejectManager extends MilestoneManager
     
                 $milestone->set('status', 'reject_employer');
                 $milestone->set('request', '1');
+                $milestone->set('last_status_updated_at', date('Y-m-d H:i:s'));
                 $milestone->save();
     
                 $freelancer_id = $milestone['freelancer_id'];
@@ -63,6 +64,7 @@ class MilestoneRejectManager extends MilestoneManager
                             ))
                             ->find_one();
                         $update_project->set('status', 'reject_request');
+                        $update_project->set('last_status_updated_at', date('Y-m-d H:i:s'));
                         $update_project->save();
 
                     $project_title = $update_project['product_name'];
@@ -105,6 +107,7 @@ class MilestoneRejectManager extends MilestoneManager
     
                 $milestone->set('status', 'reject_freelancer');
                 $milestone->set('request', '1');
+                $milestone->set('last_status_updated_at', date('Y-m-d H:i:s'));
                 $milestone->save();
     
                 $freelancer_id = $milestone['freelancer_id'];
@@ -119,6 +122,7 @@ class MilestoneRejectManager extends MilestoneManager
                             ))
                             ->find_one();
                         $update_project->set('status', 'reject_request');
+                        $update_project->set('last_status_updated_at', date('Y-m-d H:i:s'));
                         $update_project->save();
 
                 $project_title = $update_project['product_name'];
@@ -218,6 +222,7 @@ class MilestoneRejectManager extends MilestoneManager
             if (!empty($milestone)) {
     
                 $milestone->set('status', 'request');
+                $milestone->set('last_status_updated_at', date('Y-m-d H:i:s'));
                 $milestone->save();
     
                 $freelancer_id = $milestone['freelancer_id'];
@@ -232,6 +237,7 @@ class MilestoneRejectManager extends MilestoneManager
                             ))
                             ->find_one();
                         $update_project->set('status', 'under_development');
+                        $update_project->set('last_status_updated_at', date('Y-m-d H:i:s'));
                         $update_project->save();
     
                 $project_title = $update_project['product_name'];
@@ -331,6 +337,7 @@ class MilestoneRejectManager extends MilestoneManager
             if (!empty($milestone)) {
     
                 $milestone->set('status', 'request');
+                $milestone->set('last_status_updated_at', date('Y-m-d H:i:s'));
                 $milestone->save();
     
                 $freelancer_id = $milestone['freelancer_id'];
@@ -345,6 +352,7 @@ class MilestoneRejectManager extends MilestoneManager
                             ))
                             ->find_one();
                         $update_project->set('status', 'under_development');
+                        $update_project->set('last_status_updated_at', date('Y-m-d H:i:s'));
                         $update_project->save();
     
                 $project_title = $update_project['product_name'];

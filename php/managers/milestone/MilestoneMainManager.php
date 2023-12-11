@@ -257,6 +257,7 @@ class MilestoneMainManager extends MilestoneManager
                             ))
                             ->find_one();
                         $update_project->set('status', 'completed');
+
                         $update_project->save();
                     // }
                 }
@@ -451,6 +452,7 @@ class MilestoneMainManager extends MilestoneManager
                 $milestone->set('status', 'request');
                 $milestone->set('request', '1');
                 $milestone->set('end_date', $now);
+                $milestone->set('last_status_updated_at', date('Y-m-d H:i:s'));
                 $milestone->save();
     
                 $freelancer_id = $milestone['freelancer_id'];

@@ -1,6 +1,0 @@
-[23-Nov-2023 02:59:43 America/Costa_Rica] PHP Warning:  PDOStatement::execute(): SQLSTATE[42S22]: Column not found: 1054 Unknown column 'plus_time_days' in 'field list' in P:\projects\creatly\includes\lib\idiorm.php on line 505
-[23-Nov-2023 03:58:38 America/Costa_Rica] PHP Warning:  PDO::query(): SQLSTATE[42S22]: Column not found: 1054 Unknown column 'o.code' in 'where clause' in P:\projects\creatly\admin\app\datatable-json\gig_orders.php on line 64
-[23-Nov-2023 03:58:38 America/Costa_Rica] PHP Fatal error:  Uncaught Error: Call to a member function rowCount() on bool in P:\projects\creatly\admin\app\datatable-json\gig_orders.php:65
-Stack trace:
-#0 {main}
-  thrown in P:\projects\creatly\admin\app\datatable-json\gig_orders.php on line 65

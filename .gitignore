@@ -1,3 +1,4 @@
 includes/config.php
 storage
 install/extra/migrations_executed.log
+errors.log
