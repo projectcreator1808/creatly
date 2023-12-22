@@ -1868,26 +1868,25 @@ function rating_exist($project_id,$post_type='default', $order_id = 0){
     $where = [
         'project_id' => $project_id,
         'post_type' =>$post_type,
-        'employer_id' => validate_input($_SESSION['user']['id']),
     ];
+
+    $user_id = validate_input($_SESSION['user']['id']);
+
+    if ($_SESSION['user']['user_type'] == 'employer') {
+        $where['employer_id'] = $user_id;
+        $where['rated_by'] = 'employer';
+    } else {
+        $where['freelancer_id'] = $user_id;
+        $where['rated_by'] = 'user';
+    }
 
     if ($order_id) {
         $where['order_id'] = $order_id;
     }
 
-    if($_SESSION['user']['user_type'] == 'employer'){
-        $num_rows = ORM::for_table($config['db']['pre'] . 'reviews')
-            ->where($where + [
-                'rated_by' => 'employer'
-            ])
+    $num_rows = ORM::for_table($config['db']['pre'] . 'reviews')
+            ->where($where)
             ->count();
-    }else{
-        $num_rows = ORM::for_table($config['db']['pre'] . 'reviews')
-            ->where($where + [
-                'rated_by'=> 'user'
-            ])
-            ->count();
-    }
 
 
     return $num_rows == 1;
