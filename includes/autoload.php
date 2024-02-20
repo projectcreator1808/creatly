@@ -5,6 +5,7 @@ if (!defined('ISCONSOLE')) {
 }
 
 require_once('config.php');
+require_once('helpers.php');
 require_once('lib/idiorm.php');
 require_once('db.php');
 require_once('lib/HTMLPurifier/HTMLPurifier.standalone.php');

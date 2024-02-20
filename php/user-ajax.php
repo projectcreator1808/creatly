@@ -575,16 +575,19 @@ function write_rating(){
     $project_id = validate_input($_POST['project_id']);
     $order_id = validate_input($_POST['project_id']);
     $rating = validate_input($_POST["rating"]);
-    $message = validate_input($_POST["message"]);
+    $message = validate_input($_POST["message"]) ?? '';
     $message = strtr($message, array("\r\n" => '<br />', "\r" => '<br />', "\n" => '<br />'));
+
+    $auth_user_id = $_SESSION['user']['id'];
+    $auth_user_type = $_SESSION['user']['user_type'];
 
     if(isset($_POST['project_id'])){
         if($post_type == 'gig'){
-            if($_SESSION['user']['user_type'] == 'employer'){
+            if($auth_user_type == 'employer'){
                 $valid_check_stamp = ORM::for_table($config['db']['pre'].'orders')
                     ->where(array(
                         'status' => 'completed',
-                        'user_id' => $_SESSION['user']['id']
+                        'user_id' => $auth_user_id
                     ))
                     ->find_one($order_id);
             }else{
@@ -592,19 +595,19 @@ function write_rating(){
                     ->table_alias('o')
                     ->where(array(
                         'o.status' => 'completed',
-                        'p.user_id' => $_SESSION['user']['id']
+                        'p.user_id' => $auth_user_id
                     ))
                     ->join($config['db']['pre'] . 'post', array('o.post_id', '=', 'p.id'), 'p')
                     ->count();
             }
         }else{
-            if($_SESSION['user']['user_type'] == 'employer'){
+            if($auth_user_type == 'employer'){
                 $valid_check_stamp = ORM::for_table($config['db']['pre'].'project')
-                    ->where('user_id',$_SESSION['user']['id'])
+                    ->where('user_id', $auth_user_id)
                     ->find_one($project_id);
             }else{
                 $valid_check_stamp = ORM::for_table($config['db']['pre'].'project')
-                    ->where('freelancer_id',$_SESSION['user']['id'])
+                    ->where('freelancer_id', $auth_user_id)
                     ->find_one($project_id);
             }
         }
@@ -621,7 +624,7 @@ function write_rating(){
         die(json_encode($result));
     }
 
-    if(empty($message)) {
+    if($auth_user_type == 'employer' && empty($message)) {
         $result['success'] = false;
         $result['message'] = __("Message is required");
         die(json_encode($result));

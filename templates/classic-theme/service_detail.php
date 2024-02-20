@@ -74,7 +74,7 @@ overall_header(__("Post Project"));
                 <!--Gallary Div-->
                 <div class="single-page-section" id="description">
                     <h3 class="margin-bottom-25"><?php _e('About This Gig');?></h3>
-                    <?php _esc($item_desc)?>
+                    <?php _esc(str_replace("\r\n", '<br>', $item_desc))?>
                 </div>
                 <div class="single-page-section" id="aboutSeller">
                     <h3 class="margin-bottom-25"><?php _e('About The Seller');?></h3>
@@ -246,9 +246,10 @@ overall_header(__("Post Project"));
                     </div>
                     <!-- Accordion / End -->
                 </div>
-                <div class="boxed-list margin-bottom-60" id="reviews">
-                    <div class="boxed-list-headline">
+                <div class="boxed-list margin-bottom-60 _hide" id="reviews">
+                    <div class="boxed-list-headline reviews_toggle">
                         <h3><i class="icon-material-outline-thumb-up"></i> Rating</h3>
+                        <i class="fa fa-arrow-up" aria-hidden="true"></i>
                     </div>
                     <!-- **** Start reviews **** -->
                     <div class="listings-container compact-list-layout starReviews">
@@ -337,8 +338,10 @@ overall_header(__("Post Project"));
                                 </article>
                                 <div class="tab-footer">
                                     <form method="post">
+                                        <?php if (!$is_autor_post) { ?>
                                         <input type="hidden" name="order_service" value="basic">
                                         <button class="button margin-top-35 full-width button-sliding-icon ripple-effect" name="submit" type="submit"><i class="icon-feather-arrow-right"></i> <?php _e('Continue');?> (<?php _esc(price_format($basic_plan['price']))?>)</button>
+                                        <?php } ?>
                                         <a href="#packagesTable" class="btn-compare-packages tbody-6"><?php _e('Compare Packages');?></a>
                                     </form>
                                 </div>
@@ -504,5 +507,35 @@ overall_header(__("Post Project"));
 
     <script src="<?php _esc(TEMPLATE_URL);?>/service_fragments/vendor/lightgallery-master/lightgallery-all.min.js"></script>
     <script src="<?php _esc(TEMPLATE_URL);?>/service_fragments/js/custom.js"></script>
+
+    <style>
+        #reviews._hide .starReviews {
+            display: none;
+        }
+
+        .reviews_toggle {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+        }
+
+        .reviews_toggle > i {
+            color: var(--theme-color-1);
+            transition: all .2s;
+        }
+
+        #reviews._hide .reviews_toggle > i {
+            transform: rotate(180deg);
+        }
+    </style>
+
+    <script>
+        $(document).ready(function() {
+            $("#reviews .reviews_toggle").on('click', function() {
+                $("#reviews").toggleClass('_hide');
+            });
+        })
+    </script>
 
 <?php overall_footer(); ?>

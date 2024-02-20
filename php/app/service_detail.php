@@ -76,7 +76,11 @@ if ($num_rows > 0) {
     $standard_plan_json = json_decode(get_post_option($post_id, 'standard_pricing_plan'),true);
     $premium_plan_json = json_decode(get_post_option($post_id, 'premium_pricing_plan'),true);
 
-    if(isset($_POST['order_service'])){
+    $auth_user = checkloggedin() ? $_SESSION['user'] : null;
+    $is_autor_post = $auth_user && $auth_user['id'] == $info['user_id'];
+
+    if(isset($_POST['order_service']) && !$is_autor_post) {
+
         /*These details save in session and get on payment sucecess*/
         if($_POST['order_service'] == "basic"){
             $plan_json = json_decode(get_post_option($post_id, 'basic_pricing_plan'),true);
@@ -190,7 +194,8 @@ HtmlTemplate::display('service_detail', array(
     'premium_plan' => $premium_plan_json,
     'currency_sign' => $config['currency_sign'],
     'quickchat_url' => $quickchat_url,
-    'language_direction' => get_current_lang_direction()
+    'language_direction' => get_current_lang_direction(),
+    'is_autor_post' => $is_autor_post,
 ));
 exit;
 ?>

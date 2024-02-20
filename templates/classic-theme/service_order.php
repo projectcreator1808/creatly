@@ -354,7 +354,9 @@ overall_header(__("Orders"));
                                 </div><div class="clearfix"></div>
                             </div>
 
+                            <?php if($usertype == 'employer'){ ?>
                             <textarea class="with-border" placeholder="<?php _e("Comment") ?>" name="message" id="message" cols="7" required></textarea>
+                            <?php } ?>
                             <input name="project_id" id="project_id" value="" type="hidden"/>
                             <input name="post_type" id="post_type" value="gig" type="hidden"/>
                             <!-- Button -->

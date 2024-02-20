@@ -221,7 +221,7 @@ class MilestoneRejectManager extends MilestoneManager
     
             if (!empty($milestone)) {
     
-                $milestone->set('status', 'request');
+                $milestone->set('status', 'funded');
                 $milestone->set('last_status_updated_at', date('Y-m-d H:i:s'));
                 $milestone->save();
     
@@ -336,7 +336,7 @@ class MilestoneRejectManager extends MilestoneManager
     
             if (!empty($milestone)) {
     
-                $milestone->set('status', 'request');
+                $milestone->set('status', 'funded');
                 $milestone->set('last_status_updated_at', date('Y-m-d H:i:s'));
                 $milestone->save();
     

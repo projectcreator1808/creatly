@@ -52,7 +52,7 @@
                                 <li><a href="<?php url("MYPROJECTS") ?>"><?php _e("My Projects") ?></a></li>
                             </ul>
                         </li>
-                        <li><a href="#"><i class="icon-material-outline-business-center"></i> <?php _e("Jobs") ?></a>
+                        <?php if (false) { ?><li><a href="#"><i class="icon-material-outline-business-center"></i> <?php _e("Jobs") ?></a> <?php } ?>
                             <ul>
                                 <?php
                                 if($usertype == "user"){

@@ -106,13 +106,13 @@ if (isset($_GET['show'])) {
             $where_array = array(
                 'employer_id' => $user_id,
                 'rated_by'=> 'user',
-                'post_type' => 'default'
+                // 'post_type' => 'default'
             );
         }else{
             $where_array = array(
                 'freelancer_id' => $user_id,
                 'rated_by'=> 'employer',
-                'post_type' => 'default'
+                // 'post_type' => 'default'
             );
         }
     }
@@ -133,17 +133,29 @@ if (isset($_GET['show'])) {
                 $pro = ORM::for_table($config['db']['pre'].'post')
                     ->select('title')
                     ->find_one($fReviews['project_id']);
+
                 $project_id = $fReviews['project_id'];
                 $project_title = $pro['title'];
-                $user_id = $fReviews['user_id'];
+                $user_id = $fReviews['employer_id'];
                 $project_link = $link['SERVICE'].'/'.$project_id;
             }else{
-                $pro = ORM::for_table($config['db']['pre'].'project')
-                    ->select('product_name')
-                    ->find_one($fReviews['project_id']);
                 $project_id = $fReviews['project_id'];
-                $project_title = $pro['product_name'];
-                $project_link = $link['PROJECT'].'/'.$project_id;
+
+                if ($fReviews['post_type'] == 'gig') {
+                    $pro = ORM::for_table($config['db']['pre'].'post')
+                        ->select('title')
+                        ->find_one($fReviews['project_id']);
+
+                    $project_title = $pro['title'];
+                    $project_link = $link['SERVICE'].'/'.$project_id;
+                } else {
+                    $pro = ORM::for_table($config['db']['pre'].'project')
+                        ->select('product_name')
+                        ->find_one($fReviews['project_id']);
+
+                    $project_title = $pro['product_name'];
+                    $project_link = $link['PROJECT'].'/'.$project_id;
+                }
 
                 if($user_type == 'employer'){
                     $user_id = $fReviews['freelancer_id'];

@@ -253,7 +253,7 @@
                             <li class=""><a href="#"><?php _e("Home") ?></a>
                                 <ul class="dropdown-nav">
                                     <li><a href="<?php url("INDEX1") ?>"><?php _e("Home Freelancer") ?></a></li>
-                                    <li><a href="<?php url("INDEX2") ?>"><?php _e("Home Job") ?></a></li>
+                                    <?php if (false) { ?><li><a href="<?php url("INDEX2") ?>"><?php _e("Home Job") ?></a></li><?php } ?>
                                     <li><a href="<?php url("INDEX3") ?>"><?php _e("Home Gig Services") ?></a></li>
                                 </ul>
                             </li>
@@ -274,7 +274,7 @@
                             <li><a href="#"><?php _e("") ?><?php _e("For Employers") ?></a>
                                 <ul class="dropdown-nav">
                                     <li><a href="<?php url("POST-PROJECT") ?>"><?php _e("Post a Project") ?></a></li>
-                                    <li><a href="<?php url("POST-JOB") ?>"><?php _e("Post a Job") ?></a></li>
+                                    <?php if (false) { ?><li><li><a href="<?php url("POST-JOB") ?>"><?php _e("Post a Job") ?></a></li><?php } ?>
                                     <li><a href="<?php url("SEARCH_SERVICES") ?>"><?php _e("Browse Gig Services") ?></a></li>
                                     <?php
                                     if($config['job_seeker_enable']){
@@ -313,7 +313,7 @@
                                             <li><a href="<?php url("MYPROJECTS") ?>"><?php _e("Manage Projects") ?> </a></li>
                                         </ul>
                                     </li>
-                                    <li><a href="<?php url("") ?>"><?php _e("Jobs") ?></a>
+                                    <?php if (false) { ?><li><li><a href="<?php url("") ?>"><?php _e("Jobs") ?></a>
                                         <ul class="dropdown-nav">
                                             <li><a href="<?php url("MYJOBS") ?>"><?php _e("My Jobs") ?></a></li>
                                             <?php
@@ -322,11 +322,13 @@
                                             }
                                             ?>
                                         </ul>
-                                    </li>
+                                    </li><?php } ?>
 
                                     <li><a href="<?php url("ACCOUNT_SETTING") ?>"><?php _e("Settings") ?></a></li>
                                 </ul>
                             </li>
+                            <?php } else { ?>
+                                <li class = "_onlyMobile"><a href="<?php url("LOGIN") ?>"><?php _e("Login") ?></a></li>
                             <?php } ?>
                         </ul>
                     </nav>

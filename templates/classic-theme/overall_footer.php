@@ -29,7 +29,7 @@
                                 echo '<li><a href="'.url("LOGIN",false).'">'.__("Login").'</a></li>';
                                 echo '<li><a href="'.url("SIGNUP",false).'">'.__("Register").'</a></li>';
                                 echo '<li><a href="'.url("POST-PROJECT",false).'">'.__("Post Project").'</a></li>';
-                                echo '<li><a href="'.url("POST-JOB",false).'">'.__("Post a Job").'</a></li>';
+                                // echo '<li><a href="'.url("POST-JOB",false).'">'.__("Post a Job").'</a></li>';
                             }
                             ?>
                         </ul>
@@ -47,7 +47,7 @@
                                 echo '<li><a href="'.url("BLOG",false).'">'.__("Blog").'</a></li>';
                             }
                             ?>
-                            <li><a href="<?php url("SITEMAP") ?>"><?php _e("Sitemap") ?></a></li>
+                            <?php if (false) { ?><li><a href="<?php url("SITEMAP") ?>"><?php _e("Sitemap") ?></a></li><?php } ?>
                             <li><a href="<?php url("FEEDBACK") ?>"><?php _e("Feedback") ?></a></li>
                             <li><a href="<?php url("CONTACT") ?>"><?php _e("Contact") ?></a></li>
                         </ul>
@@ -66,7 +66,7 @@
                                 echo '<li><a href="'.$html['link'].'">'.$html['title'].'</a></li>';
                             }
                             ?>
-                            <li><a href="<?php url("ADVERTISE_HERE") ?>"><?php _e("Advertise Here") ?></a></li>
+                            <?php if (false) { ?><li><a href="<?php url("ADVERTISE_HERE") ?>"><?php _e("Advertise Here") ?></a></li> <?php } ?>
                         </ul>
                     </div>
                 </div>

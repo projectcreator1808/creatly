@@ -76,6 +76,10 @@ if($match) {
     sec_session_start();
     $mysqli = db_connect();
 
+    if (isDev() && isset($_GET['showroute'])) {
+        dd($match);
+    }
+
     require APPPATH.$match['target'];
 }
 else {

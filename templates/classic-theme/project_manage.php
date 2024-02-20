@@ -86,7 +86,7 @@ overall_header(__(""));
                                                         if($item['status'] == "dispute")
                                                             echo '<div class="dashboard-status-button yellow">'.__("Dispute").'</div>';
                                                         if($item['status'] == "deliver")
-                                                            echo '<div class="dashboard-status-button blue">'.__("Delivered").'</div>';
+                                                            echo '<div class="dashboard-status-button blue" data-tippy title="You have 3 days to Release or Dispute" data-tippy-placement = "top">'.__("Delivered").'</div>';
                                                         if($item['status'] == "reject_request")
                                                             echo '<div class="dashboard-status-button red" data-tippy title="You have 3 days to accept or deny request otherwise order will be completed" data-tippy-placement = "top">'.__("Reject request").'</div>';
                                                         if($item['status'] == "split_request") {

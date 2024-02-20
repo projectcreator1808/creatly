@@ -6,3 +6,9 @@
 .welcome-text span.plus-time-order_id_text {
     display: inline;
 }
+
+@media screen and (min-width: 769px) {
+    ._onlyMobile {
+        display: none !important;
+    }
+}
